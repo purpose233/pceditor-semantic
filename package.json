@@ -1,0 +1,51 @@
+{
+  "name": "pceditor",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "npm run build && electron ./build/main.js",
+    "dist": "electron-builder"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purpose233/pceditor.git"
+  },
+  "keywords": [],
+  "author": "purpose233",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/purpose233/pceditor/issues"
+  },
+  "homepage": "https://github.com/purpose233/pceditor#readme",
+  "build": {
+    "appId": "pceditor",
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^12.6.9",
+    "@types/stats.js": "^0.17.0",
+    "@types/uuid": "^3.4.6",
+    "electron": "^6.0.1",
+    "electron-builder": "^21.2.0",
+    "stats.js": "^0.17.0",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.16.0",
+    "three": "^0.107.0",
+    "uuid": "^3.3.3"
+  }
+}

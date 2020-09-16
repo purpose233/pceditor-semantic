@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editor</title>
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./index.css">
+  </head>
+  <body>
+    <div id="project-mask">
+      <div class="jumbotron" id="project-panel">
+        <div class="project-panel-header">
+          <button type="button" class="btn btn-primary" id="import-project-btn">Import Point Cloud</button>
+        </div>
+        <div class="project-container" id="project-container">
+          <!-- <div class="project-item">
+            <img src="cloud.png">
+            <p class="project-info"><b>Name: </b>Test Point Cloud</p>
+            <p class="project-info"><b>Path: </b>/home/purpose/Projects/web/pceditor</p>
+            <button type="button" class="btn btn-danger">Delete</button>
+          </div> -->
+        </div>
+      </div>
+      <div class="modal fade" id="import-project-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="import-project-title">Upload Point Cloud Meta File</h5>
+            </div>
+            <div class="modal-body">
+              <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="basic-addon1">Project Name: </span>
+                </div>
+                <input type="text" class="form-control" id="import-name-input" aria-label="Username" aria-describedby="basic-addon1">
+              </div>
+              <input type="file" class="form-control-file" id="import-project-input" accept=".pcd">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="import-confirm-btn">Upload</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="confirm-delete-modal" data-backdrop="static" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="import-project-title">Confrim Deletion</h5>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure to delete this project and all files?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary" id="confirm-delete-btn">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="mask-container">
+        <div class="spinner-border m-5 waiting-spinner" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+    </div>
+    
+
+    <div id="container">
+      <div id="sider-menu">
+        <div class="menu-panel selector-panel">
+          <h5 class="title">Selector</h5>
+          <div class='divider'></div>
+          <button type="button" class="btn btn-light" id="noneSelector">None</button>
+          <button type="button" class="btn btn-secondary" id="boxSelector">Box</button>
+          <button type="button" class="btn btn-secondary" id="sphereSelector">Sphere</button>
+        </div>
+
+        <div class="menu-panel render-panel">
+          <h5 class="title">Render</h5>
+          <div class="divider"></div>
+          <div class="render-info-line">
+            <p class="render-info-key">Rendering Nodes: </p>
+            <p class="render-info-value" id="renderInfoNodes">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Loaded Nodes: </p>
+            <p class="render-info-value" id="renderInfoLoadedNodes">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Rendering Points: </p>
+            <p class="render-info-value" id="renderInfoPoints">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Max Rendeing LoD: </p>
+            <p class="render-info-value" id="renderInfoMaxLoD">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Selected Points: </p>
+            <p class="render-info-value" id="renderInfoSelectedPoints">0</p>
+          </div>
+        </div>
+
+        <div class="menu-panel operation-panel">
+          <h5 class="title">Operation</h5>
+          <div class="divider"></div>
+          <button type="button" class="btn btn-secondary" id="returnMenuBtn">
+            Return
+          </button>
+          <button type="button" class="btn btn-secondary" id="exportBtn" data-toggle="modal" data-target="#exportModal">
+            Export
+          </button>
+          <div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalTitle" aria-hidden="true" data-backdrop="static">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exportModalTitle">Export Point Cloud</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="exportModalCloseBtn">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <input type="file" id="exportPathInput" webkitdirectory directory />
+                </div>
+                <div class="modal-footer">
+                  <div class="spinner-grow" role="status" id="exportWaitingSpinner" style="display: none;">
+                    <span class="sr-only">Loading...</span>
+                  </div>
+                  <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button> -->
+                  <button type="button" class="btn btn-primary" id="exportConfirmBtn">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+      </div>
+    </div>
+
+    <div id="toast-container"></div>
+    
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+      nodeRequire('./build/index.js');
+    </script>
+    <!-- <script>
+      require('./node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+    <script>
+      require('./dist/index.js');
+    </script> -->
+  </body>
+</html>
