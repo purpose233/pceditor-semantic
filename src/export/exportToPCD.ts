@@ -46,7 +46,7 @@ export function writeNode(writeStream: fs.WriteStream, stack: RenderNode[], wait
     });
   }
 
-  if (!waiting) {
+  if (waiting) {
     return Promise.all([waitWriteStream(writeStream), getNodeStr()])
       .then((values: [void, string]) => writeStream.write(values[1]))
       .then((next: boolean) => writeNode(writeStream, stack, next));

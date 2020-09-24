@@ -32,7 +32,7 @@ export class RenderNode extends MNONode {
 
   protected createNewNode(idx: string, bbox: BoundingBox, parentNode: null | RenderNode): MNONode {
     return new RenderNode(idx, bbox, parentNode, this.refTree as RenderTree);
-  };
+  }
 
   public getFilePath(): string {
     const exportDataPath = (this.refTree as RenderTree).getRefDataPath(this.idx);
@@ -175,7 +175,7 @@ export class RenderNode extends MNONode {
     geometry.computeBoundingBox();
     const outlineMaterial = new PointsMaterial({size: DefaultPointSize * OutlineRatio, color: OutlineColor});
     const outlineMesh = new Points(geometry, outlineMaterial);
-    const material = new PointsMaterial({size: DefaultPointSize, vertexColors: VertexColors});
+    const material = new PointsMaterial({size: DefaultPointSize, color: VertexColors});
     const mesh = new Points(geometry, material);
     mesh.add(outlineMesh);
     return mesh;

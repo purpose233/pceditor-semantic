@@ -10,7 +10,7 @@ import { BoundingBox } from '../common/bbox';
 
 export class PCDConverter extends BaseConverter {
 
-  private async readLine(path: string, handler: Function): Promise<void> {
+  private async readLine(path: string, handler: (line: string) => void): Promise<void> {
     try {
       const input = fs.createReadStream(path, {
         encoding: 'utf-8'
@@ -60,8 +60,8 @@ export class PCDConverter extends BaseConverter {
 
   public async read(filePath: string, exportPath: string): Promise<ConverterTree> {
     this.createProjectDir(exportPath);
-    let pointNumber: number = 0;
-    let pointCount: number = 0;
+    let pointNumber = 0;
+    let pointCount = 0;
     const bbox = await this.readBoundingBox(filePath);
     const tree = new ConverterTree(exportPath, bbox);
     await this.readLine(filePath, (data: string) => {
