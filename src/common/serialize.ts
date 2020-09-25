@@ -1,7 +1,8 @@
 import fs from 'fs';
+import { PointDataSize } from '../common/constants';
 import { TreeIndexType, NodeIndexType } from './types';
 import { serializedbboxToBBoxType, readFileP } from './common';
-import { Vector3 } from 'three';
+import { Color, Vector3 } from 'three';
 import { MNONode } from '../tree/mnoNode';
 import { MNOTree } from '../tree/mnoTree';
 import { ConverterNode } from '../converter/converterNode';
@@ -43,7 +44,7 @@ export function serializeIndex(filePath: string, tree: MNOTree): Promise<void> {
 export function serializeNode(filePath: string, node: MNONode): Promise<void> {
   return new Promise((resolve) => {
     const grid = node.getGrid(), stacks = node.getStacks();
-    const size = 4 * 6 + 1 + 4 + (12 + 4) * grid.size + 2 * 8 + 12 * node.getStackCount();
+    const size = 4 * 6 + 1 + 4 + (PointDataSize + 4) * grid.size + 2 * 8 + PointDataSize * node.getStackCount();
     const buffer = Buffer.alloc(size);
     let offset = 0;
   
@@ -63,18 +64,27 @@ export function serializeNode(filePath: string, node: MNONode): Promise<void> {
     const gridIter = grid.entries();
     let result;
     while (!(result = gridIter.next()).done) {
-      const gridNumber = result.value[0], position = result.value[1].getPosition();
+      const gridNumber = result.value[0];
+      const position = result.value[1].getPosition();
+      const color = result.value[1].getColor();
       buffer.writeUInt32BE(gridNumber, offset); offset += 4;
       buffer.writeFloatBE(position.x, offset); offset += 4;
       buffer.writeFloatBE(position.y, offset); offset += 4;
       buffer.writeFloatBE(position.z, offset); offset += 4;
+      buffer.writeUInt8(color.r, offset); offset += 1;
+      buffer.writeUInt8(color.g, offset); offset += 1;
+      buffer.writeUInt8(color.b, offset); offset += 1;
     }
     for (const stack of stacks) {
       for (const point of stack) {
         const position = point.getPosition();
+        const color = point.getColor();
         buffer.writeFloatBE(position.x, offset); offset += 4;
         buffer.writeFloatBE(position.y, offset); offset += 4;
         buffer.writeFloatBE(position.z, offset); offset += 4;
+        buffer.writeUInt8(color.r, offset); offset += 1;
+        buffer.writeUInt8(color.r, offset); offset += 1;
+        buffer.writeUInt8(color.r, offset); offset += 1;
       }
     }
   
@@ -130,16 +140,26 @@ export function deserializeNode(filePath: string, node: MNONode, isConvertering:
       const x = buffer.readFloatBE(offset); offset += 4;
       const y = buffer.readFloatBE(offset); offset += 4;
       const z = buffer.readFloatBE(offset); offset += 4;
-      node.addPointToGrid(gridNumber, isConvertering ? new ConverterPoint(new Vector3(x, y, z)) 
-                                                     : new RenderPoint(new Vector3(x, y, z)));
+      const r = buffer.readUInt8(offset); offset += 1;
+      const g = buffer.readUInt8(offset); offset += 1;
+      const b = buffer.readUInt8(offset); offset += 1;
+      const position = new Vector3(x, y, z);
+      const color = new Color(r, g, b);
+      node.addPointToGrid(gridNumber, isConvertering ? new ConverterPoint(position, color) 
+                                                     : new RenderPoint(position, color));
     }
     for (let i = 0; i < 8; i++) {
       for (let j = 0; j < stackCounts[i]; j++) {
         const x = buffer.readFloatBE(offset); offset += 4;
         const y = buffer.readFloatBE(offset); offset += 4;
         const z = buffer.readFloatBE(offset); offset += 4;
-        node.addPointToStack(i, isConvertering ? new ConverterPoint(new Vector3(x, y, z)) 
-                                               : new RenderPoint(new Vector3(x, y, z)));
+        const r = buffer.readUInt8(offset); offset += 1;
+        const g = buffer.readUInt8(offset); offset += 1;
+        const b = buffer.readUInt8(offset); offset += 1;
+        const position = new Vector3(x, y, z);
+        const color = new Color(r, g, b);
+        node.addPointToStack(i, isConvertering ? new ConverterPoint(position, color) 
+                                               : new RenderPoint(position, color));
       }
     }
   });

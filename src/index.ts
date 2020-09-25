@@ -31,6 +31,27 @@ declare global {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
   let renderScene: PCScene | null = null;
 
+  // converte pcd file
+  // const filePath = './data/test0.pcd';
+  // const converter = new PCDConverter();
+  // const importPath = path.resolve(filePath);
+  // const exportPath = path.resolve(__dirname, './projects/test0');
+  // console.log(exportPath);
+  // let tree: ConverterTree | null = await converter.read(importPath, exportPath);
+  // console.log(tree);
+  // tree = null;
+
+  // render
+  const projectPath = path.resolve(__dirname, './projects/test0');
+  const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
+  console.log(renderTree);
+  const renderer = new PCRenderer(renderTree);
+  const pcScene = new PCScene(container, canvas, renderer);
+  renderScene = pcScene;
+  const scene = pcScene.getScene();
+  const camera = pcScene.getCamera();
+
+  /*
   const projectController = new ProjectController();
   projectController.init();
   projectController.setFromConfig(config.projects);
@@ -153,4 +174,5 @@ declare global {
     // operationController.setOnExportCB(async (path: string) => {});
     projectController.showProjectPanel();
   });
+  */
 })();

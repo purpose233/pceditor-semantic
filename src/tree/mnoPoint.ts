@@ -7,8 +7,9 @@ export abstract class MNOPoint {
   protected position: Vector3;
   protected color?: Color;
 
-  constructor(position: Vector3) {
+  constructor(position: Vector3, color?: Color) {
     this.position = position;
+    this.color = color;
   }
 
   public getPosition(): Vector3 { return this.position; }

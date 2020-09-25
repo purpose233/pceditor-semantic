@@ -7,6 +7,7 @@ import { calcWorldToCameraMatrix } from '../common/common';
 import { BoxSelector, createDefaultBoxSelector } from '../select/boxSelector';
 import { SelectorNameType, RenderInfoType } from '../common/types';
 import { SphereSelector, createDefaultSphereSelector } from '../select/sphereSelector';
+import { BoundingBox } from '../common/bbox';
 
 // import * as THREE from 'three';
 
@@ -27,6 +28,10 @@ export class PCRenderer {
 
   public setRenderInfoChangeCB(callback: (info: RenderInfoType) => void): void {
     this.renderInfoChangeCB = callback;
+  }
+
+  public getBBox(): BoundingBox {
+    return this.tree.getBBox();
   }
 
   // public async renderTotalTree(scene: Scene, camera: PerspectiveCamera): Promise<void> {

@@ -1,6 +1,6 @@
 import { MNONode } from '../tree/mnoNode';
-import { Points, Scene, BufferGeometry, BufferAttribute, 
-  PointsMaterial, VertexColors, Line, 
+import { Points, Scene, BufferGeometry, Float32BufferAttribute, 
+  PointsMaterial, Line, 
   Color, Box3, Box3Helper, Vector3 } from 'three';
 import { deserializeNode, serializeNode } from '../common/serialize';
 import { DefaultPointSize, SelectedPointColor, BBoxColor, OutlineRatio, OutlineColor, ExportTempPostfix } from '../common/constants';
@@ -164,20 +164,21 @@ export class RenderNode extends MNONode {
         colors[3 * i + 1] = SelectedPointColor.g;
         colors[3 * i + 2] = SelectedPointColor.b;
       } else {
-        colors[3 * i] = color.r;
-        colors[3 * i + 1] = color.g;
-        colors[3 * i + 2] = color.b;
+        // color used for rendering should be float
+        colors[3 * i] = color.r / 255;
+        colors[3 * i + 1] = color.g / 255;
+        colors[3 * i + 2] = color.b / 255;
       }
     });
     const geometry = new BufferGeometry();
-    geometry.addAttribute('position', new BufferAttribute(positions, 3));
-    geometry.addAttribute('color', new BufferAttribute(colors, 3));
+    geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new Float32BufferAttribute(colors, 3));
     geometry.computeBoundingBox();
-    const outlineMaterial = new PointsMaterial({size: DefaultPointSize * OutlineRatio, color: OutlineColor});
-    const outlineMesh = new Points(geometry, outlineMaterial);
-    const material = new PointsMaterial({size: DefaultPointSize, color: VertexColors});
+    // const outlineMaterial = new PointsMaterial({size: DefaultPointSize * OutlineRatio, color: OutlineColor});
+    // const outlineMesh = new Points(geometry, outlineMaterial);
+    const material = new PointsMaterial({size: DefaultPointSize, vertexColors: true});
     const mesh = new Points(geometry, material);
-    mesh.add(outlineMesh);
+    // mesh.add(outlineMesh);
     return mesh;
   }
 

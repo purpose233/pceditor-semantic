@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import readline from 'readline';
-import { Vector3 } from 'three';
+import { Color, Vector3 } from 'three';
 import { BaseConverter } from './baseConverter'; 
 import { ConverterTree } from './converterTree';
 import { ConverterPoint } from './converterPoint';
@@ -67,8 +67,11 @@ export class PCDConverter extends BaseConverter {
     await this.readLine(filePath, (data: string) => {
       const words = data.split(' ');
       if (!isNaN(parseFloat(words[0]))) {
-        const point = new ConverterPoint(new Vector3(parseFloat(words[0]), 
-          parseFloat(words[2]), -parseFloat(words[1])));
+        const position = new Vector3(parseFloat(words[0]),
+          parseFloat(words[2]), -parseFloat(words[1]));
+        const color = new Color(parseInt(words[3]),
+          parseInt(words[4]), parseInt(words[5]));
+        const point = new ConverterPoint(position, color);
         tree.addPoint(point);
         pointCount++;
       } else {

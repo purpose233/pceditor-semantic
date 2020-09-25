@@ -4,6 +4,10 @@ import path from 'path';
 // Real World -> Three.js
 export const AxisRatio = 1.0;
 
+// Serialize
+// x y z r g b
+export const PointDataSize = 4 * 3 + 1 * 3;
+
 // -- MNO tree building --
 export const GridSize = 128;
 export const NodeStackMax = 128;

@@ -19,7 +19,8 @@ export class PCScene {
     this.scene = new Scene();
     this.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     // this.camera.position.set(0, 0, 5);
-    this.camera.position.set(0, 10, 5);
+    const bboxCenter = renderer.getBBox().getCenter();
+    this.camera.position.set(bboxCenter.x, bboxCenter.y, bboxCenter.z);
     this.camera.lookAt(this.scene.position);
     this.camera.updateMatrix();
     this.pcRenderer = renderer;
