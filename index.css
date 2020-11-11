@@ -1,3 +1,20 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 2192802 */
+  src: url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.eot');
+  src: url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.woff2') format('woff2'),
+  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.svg#iconfont') format('svg');
+}
+.iconfont{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body, html { 
   margin: 0; height: 100%;
 }
@@ -43,6 +60,40 @@ body, html {
   top: calc(50% - 64px);
 }
 
+#header {
+  background-color: #23262e !important;
+}
+
+#left-menu {
+  height: 100%;
+  width: 280px;
+  padding-top: 20px;
+  background: #383d49;
+}
+.left-menu-item {
+  padding: 8px 20px;
+  position: relative;
+}
+.left-menu-item a {
+  color: #c2c6ce !important;
+}
+.left-menu-item a i {
+  font-size: 20px;
+}
+.menu-item-active {
+  background-color: #455563;
+}
+.menu-item-active a::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  right: auto;
+  left: 0;
+  height: 46px;
+  width: 5px;
+  background-color: #5FB878;
+}
+
 #container { 
   height: 100%;
   width: 100%;
@@ -50,21 +101,21 @@ body, html {
   min-width: 800px;
   min-height: 600px;
 }
-#sider-menu { 
+#tool-menu { 
   min-width: 250px;
   width: 350px; 
   height: 100%;
-  background: #202020;
+  background: #32363c;
   padding: 20px;
 }
-#sider-menu .menu-panel {
+#tool-menu .menu-panel {
   margin-bottom: 20px;
 }
-#sider-menu .title {
+#tool-menu .title {
   color: white;
   font-weight: bold;
 }
-#sider-menu .divider {
+#tool-menu .divider {
   height: 1px;
   background: white;
   width: 100%;
@@ -77,17 +128,17 @@ body, html {
 #canvas-container, #canvas { 
   height: 100%;
 }
-#sider-menu .render-info-line {
+#tool-menu .render-info-line {
   margin-left: 10px;
   margin-right: 10px;
 }
-#sider-menu .render-info-line p {
+#tool-menu .render-info-line p {
   display: inline-block;
   color: white;
 }
-/* #sider-menu .render-info-line .render-info-key {
+/* #tool-menu .render-info-line .render-info-key {
 } */
-#sider-menu .render-info-line .render-info-value {
+#tool-menu .render-info-line .render-info-value {
   float: right;
 }
 

@@ -1,7 +1,8 @@
 import { Scene, PerspectiveCamera, 
-  WebGLRenderer, Color } from 'three';
+  WebGLRenderer, Color, AxesHelper } from 'three';
 // import { TrackballControls } from '../../lib/TrackballControls';
-import { OrbitControls } from '../../lib/OrbitControls';
+// import { OrbitControls } from '../../lib/OrbitControls';
+import { TrackballControls } from '../../lib/TrackballControls';
 import Stats from 'stats.js';
 import { PCRenderer } from './renderer';
 
@@ -11,7 +12,8 @@ export class PCScene {
   private camera: PerspectiveCamera;
   private renderer: WebGLRenderer;
   private stats: Stats;
-  private controls: OrbitControls;
+  // private controls: OrbitControls;
+  private controls: TrackballControls;
   private pcRenderer: PCRenderer;
   private isEnabled: boolean = true;
 
@@ -50,19 +52,24 @@ export class PCScene {
     
     // Note that the control need to be added on the parent element of canvas, 
     //  so that it could be stopped by gizmo event callbacks.  
-    this.controls = new OrbitControls(this.camera, canvas.parentElement as HTMLElement);
-    this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    this.controls.dampingFactor = 0.05;
-    this.controls.screenSpacePanning = false;
-    this.controls.minDistance = 5;
-    this.controls.maxDistance = 500;
-    this.controls.maxPolarAngle = Math.PI / 2;
-    this.controls.keyPanSpeed = 20;
+    // Orbit Controls
+    // this.controls = new OrbitControls(this.camera, canvas.parentElement as HTMLElement);
+    // this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
+    // this.controls.dampingFactor = 0.05;
+    // this.controls.screenSpacePanning = false;
+    // this.controls.minDistance = 5;
+    // this.controls.maxDistance = 500;
+    // this.controls.maxPolarAngle = Math.PI / 2;
+    // this.controls.keyPanSpeed = 20;
+    // Trackball Controls
+    this.controls = new TrackballControls(this.camera, canvas.parentElement as HTMLElement);
 
     window.addEventListener('resize', this.onWindowResize, false);
 
     // const gridHelper = new GridHelper(10, 10, new Color(0xffffff));
     // this.scene.add(gridHelper);
+    const axesHelper = new AxesHelper(10);
+    this.scene.add(axesHelper);
 
     this.animate();
   }

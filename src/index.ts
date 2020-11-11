@@ -32,10 +32,10 @@ declare global {
   let renderScene: PCScene | null = null;
 
   // converte pcd file
-  // const filePath = './data/test0.pcd';
+  // const filePath = './data/copyroom.pcd';
   // const converter = new PCDConverter();
   // const importPath = path.resolve(filePath);
-  // const exportPath = path.resolve(__dirname, './projects/test0');
+  // const exportPath = path.resolve(__dirname, './projects/copyroom');
   // console.log(exportPath);
   // let tree: ConverterTree | null = await converter.read(importPath, exportPath);
   // console.log(tree);
@@ -50,6 +50,15 @@ declare global {
   renderScene = pcScene;
   const scene = pcScene.getScene();
   const camera = pcScene.getCamera();
+  const selectorController = new SelectorController();
+  selectorController.init();
+  selectorController.setOnSelectorChangeCB(async (selectorName: SelectorNameType): Promise<void> => {
+    if (!selectorName) { 
+      renderer.removeSelector(scene, camera); 
+    } else {
+      renderer.addSelector(selectorName, scene, camera);
+    }
+  });
 
   /*
   const projectController = new ProjectController();
