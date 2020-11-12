@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'iconfont';  /* project id 2192802 */
-  src: url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.eot');
-  src: url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.eot?#iefix') format('embedded-opentype'),
-  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.woff2') format('woff2'),
-  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.woff') format('woff'),
-  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.ttf') format('truetype'),
-  url('http://at.alicdn.com/t/font_2192802_3r2i4lvb7vn.svg#iconfont') format('svg');
+  src: url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.eot');
+  src: url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.woff2') format('woff2'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.svg#iconfont') format('svg');
 }
 .iconfont{
   font-family:"iconfont" !important;
@@ -13,6 +13,10 @@
   -webkit-font-smoothing: antialiased;
   -webkit-text-stroke-width: 0.2px;
   -moz-osx-font-smoothing: grayscale;
+}
+.btn-block {
+  display: block;
+  margin-bottom: 5px;
 }
 
 body, html { 
@@ -66,7 +70,8 @@ body, html {
 
 #left-menu {
   height: 100%;
-  width: 280px;
+  min-width: 200px;
+  width: 200px;
   padding-top: 20px;
   background: #383d49;
 }
@@ -101,9 +106,9 @@ body, html {
   min-width: 800px;
   min-height: 600px;
 }
-#tool-menu { 
+#tool-menu {
   min-width: 250px;
-  width: 350px; 
+  width: 250px; 
   height: 100%;
   background: #32363c;
   padding: 20px;
@@ -121,24 +126,63 @@ body, html {
   width: 100%;
   margin: 10px 0;
 }
+#tool-menu .render-info-line .render-info-value {
+  float: right;
+}
 #canvas-container { 
   overflow: hidden;
   background: #232323;
+  width: calc(100% - 750px);
 }
 #canvas-container, #canvas { 
   height: 100%;
+  width: 100%;
 }
-#tool-menu .render-info-line {
+#property-menu {
+  min-width: 300px;
+  width: 300px; 
+  height: 100%;
+  background: #32363c;
+  padding: 20px;
+}
+#property-menu .menu-panel {
+  margin-bottom: 20px;
+}
+#property-menu .title {
+  color: white;
+  font-weight: bold;
+}
+#property-menu .divider {
+  height: 1px;
+  background: white;
+  width: 100%;
+  margin: 10px 0;
+}
+#property-menu .render-info-line {
   margin-left: 10px;
   margin-right: 10px;
 }
-#tool-menu .render-info-line p {
+#property-menu .render-info-line p {
   display: inline-block;
   color: white;
 }
-/* #tool-menu .render-info-line .render-info-key {
+/* #property-menu .render-info-line .render-info-key {
 } */
-#tool-menu .render-info-line .render-info-value {
+.property-item {
+  background-color: #59646d;
+  border-color: #59646d;
+  margin-bottom: 10px;
+}
+.property-item .property-item-line {
+  margin-bottom: 10px;
+}
+.property-item .property-inline-text {
+  display: inline-block;
+  line-height: 34px;
+  color: white;
+  margin-bottom: 0;
+}
+.property-item .property-inline-btn {
   float: right;
 }
 

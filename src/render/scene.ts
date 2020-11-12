@@ -8,6 +8,9 @@ import { PCRenderer } from './renderer';
 
 export class PCScene {
 
+  private canvas: HTMLCanvasElement;
+  private container: HTMLElement;
+
   private scene: Scene;
   private camera: PerspectiveCamera;
   private renderer: WebGLRenderer;
@@ -18,8 +21,10 @@ export class PCScene {
   private isEnabled: boolean = true;
 
   constructor(container: HTMLElement, canvas: HTMLCanvasElement, renderer: PCRenderer) {
+    this.container = container;
+    this.canvas = canvas;
     this.scene = new Scene();
-    this.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
+    this.camera = new PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 10000);
     // this.camera.position.set(0, 0, 5);
     const bboxCenter = renderer.getBBox().getCenter();
     this.camera.position.set(bboxCenter.x, bboxCenter.y, bboxCenter.z);
@@ -31,7 +36,8 @@ export class PCScene {
     this.renderer = new WebGLRenderer({canvas: canvas, context: context});
     // this.renderer = new WebGLRenderer({antialias: true});
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    // this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(container.clientWidth, container.clientHeight);
     this.renderer.setClearColor(new Color(0x232323));
     // container.appendChild(this.renderer.domElement);
 
@@ -89,9 +95,9 @@ export class PCScene {
   public getCamera(): PerspectiveCamera { return this.camera; }
 
   private onWindowResize = async () => {
-    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     // this.controls.handleResize();
     await this.render();
   }
