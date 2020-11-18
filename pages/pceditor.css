@@ -99,8 +99,8 @@ body, html {
   background-color: #5FB878;
 }
 
-#container { 
-  height: 100%;
+#container {
+  height: calc(100% - 56px);
   width: 100%;
   display: flex;
   min-width: 800px;
