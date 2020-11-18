@@ -56,8 +56,43 @@
         </div>
       </div>
 
-      <div id="container">
-        
+      <div id="main-container">
+        <div class="menu-panel project-panel">
+          <h5 class="title">项目校验</h5>
+          <div class="divider"></div>
+          <div class="card-item project-item card">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="project-name0" class="col-sm-2 col-form-label">项目名称：</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly class="form-control" id="project-name0" value="copyroom">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="is-mapped" class="col-sm-2 col-form-label">是否标注地图：</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly class="form-control-plaintext" id="is-mapped" value="待标注">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="is-cased" class="col-sm-2 col-form-label">是否生成用例：</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly class="form-control-plaintext" id="is-cased" value="待生成">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="is-generated" class="col-sm-2 col-form-label">是否构建场景：</label>
+                <div class="col-sm-10">
+                  <input type="text" readonly class="form-control-plaintext" id="is-generated0" value="待构建">
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary btn" id="">
+                <i class="iconfont">&#xe62b;</i>
+                开始校验
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -73,7 +108,7 @@
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script>
-      nodeRequire('../build/index.js');
+      nodeRequire('../build/extra/validate.js');
     </script>
     <!-- <script>
       require('./node_modules/bootstrap/dist/js/bootstrap.min.js');
