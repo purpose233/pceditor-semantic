@@ -1,10 +1,8 @@
-import { Scene, PerspectiveCamera, 
-  WebGLRenderer, Color, AxesHelper } from 'three';
-// import { TrackballControls } from '../../lib/TrackballControls';
-// import { OrbitControls } from '../../lib/OrbitControls';
-import { TrackballControls } from '../../lib/TrackballControls';
+import { Scene, OrthographicCamera, PerspectiveCamera,
+  WebGLRenderer, Color, AxesHelper, Vector3 } from 'three';
 import Stats from 'stats.js';
-import { PCRenderer } from './renderer';
+import { PCRenderer } from '../render/renderer';
+import { TrackballControls } from '../../lib/TrackballControls';
 
 export class PCScene {
 
@@ -12,23 +10,22 @@ export class PCScene {
   private container: HTMLElement;
 
   private scene: Scene;
-  private camera: PerspectiveCamera;
+  private camera: OrthographicCamera;
   private renderer: WebGLRenderer;
   private stats: Stats;
-  // private controls: OrbitControls;
-  private controls: TrackballControls;
   private pcRenderer: PCRenderer;
   private isEnabled: boolean = true;
+  private controls: TrackballControls;
 
   constructor(container: HTMLElement, canvas: HTMLCanvasElement, renderer: PCRenderer) {
     this.container = container;
     this.canvas = canvas;
     this.scene = new Scene();
-    this.camera = new PerspectiveCamera(45, container.clientWidth / container.clientHeight, 1, 10000);
-    // this.camera.position.set(0, 0, 5);
-    const bboxCenter = renderer.getBBox().getCenter();
-    // this.camera.position.set(bboxCenter.x, bboxCenter.y, bboxCenter.z);
+    // this.camera = new OrthographicCamera(-container.clientWidth /2, container.clientWidth / 2,
+    //   -container.clientHeight / 2, container.clientHeight / 2, 1, 10000);
+    this.camera = new OrthographicCamera(-10, 10, -10, 10, 1, 10000);
     this.camera.position.set(0, 0, -16);
+    // this.camera.lookAt(this.scene.position);
     this.camera.lookAt(this.scene.position);
     this.camera.updateMatrix();
     this.pcRenderer = renderer;
@@ -39,35 +36,13 @@ export class PCScene {
     this.renderer.setPixelRatio(window.devicePixelRatio);
     // this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setSize(container.clientWidth, container.clientHeight);
-    this.renderer.setClearColor(new Color(0x232323));
+    this.renderer.setClearColor(new Color(0xaaaaaa));
     // container.appendChild(this.renderer.domElement);
 
     this.stats = new Stats();
     this.stats.dom.style.left = '280px';
     this.stats.dom.style.top = '10px';
     container.appendChild(this.stats.dom);
-
-    // this.controls = new TrackballControls(this.camera, canvas);
-    // this.controls.rotateSpeed = 1.0;
-    // this.controls.zoomSpeed = 1.2;
-    // this.controls.panSpeed = 0.8;
-    // this.controls.noZoom = false;
-    // this.controls.noPan = false;
-    // this.controls.staticMoving = true;
-    // this.controls.dynamicDampingFactor = 0.3;
-    // this.controls.keys = [ 65, 83, 68 ];
-    
-    // Note that the control need to be added on the parent element of canvas, 
-    //  so that it could be stopped by gizmo event callbacks.  
-    // Orbit Controls
-    // this.controls = new OrbitControls(this.camera, canvas.parentElement as HTMLElement);
-    // this.controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
-    // this.controls.dampingFactor = 0.05;
-    // this.controls.screenSpacePanning = false;
-    // this.controls.minDistance = 5;
-    // this.controls.maxDistance = 500;
-    // this.controls.maxPolarAngle = Math.PI / 2;
-    // this.controls.keyPanSpeed = 20;
     // Trackball Controls
     this.controls = new TrackballControls(this.camera, canvas.parentElement as HTMLElement);
 
@@ -78,7 +53,8 @@ export class PCScene {
     const axesHelper = new AxesHelper(10);
     this.scene.add(axesHelper);
 
-    this.animate();
+    // this.animate();
+    this.render();
   }
 
   public drop(container: HTMLElement): void {
@@ -93,10 +69,9 @@ export class PCScene {
 
   public getScene(): Scene { return this.scene; }
 
-  public getCamera(): PerspectiveCamera { return this.camera; }
+  public getCamera(): OrthographicCamera { return this.camera; }
 
   private onWindowResize = async () => {
-    this.camera.aspect = this.container.clientWidth / this.container.clientHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
     // this.controls.handleResize();
@@ -111,20 +86,14 @@ export class PCScene {
     requestAnimationFrame(this.animate);
   }
 
-  // private onMouseDown = () => {}
-
-  // private onMouseUp = () => {}
-
-  // private onMouseMove = () => {}
-
-  // private flag = true;
   private render = async () => {
     // Used for debugging
     // if (this.flag) {
     //   await this.pcRenderer.renderTree(this.scene, this.camera);
     // }
     // this.flag = false;
-    await this.pcRenderer.renderTree(this.scene, this.camera);
+    // const camera = new PerspectiveCamera(45, this.container.clientWidth / this.container.clientHeight, 1, 10000);
+    await this.pcRenderer.renderTree(this.scene, this.camera as any);
     this.camera.updateMatrixWorld();
     this.renderer.render(this.scene, this.camera);
   }

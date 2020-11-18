@@ -1,0 +1,230 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 2192802 */
+  src: url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.eot');
+  src: url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.woff2') format('woff2'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.svg#iconfont') format('svg');
+}
+.iconfont{
+  font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.btn-block {
+  display: block;
+  margin-bottom: 5px;
+}
+
+body, html { 
+  margin: 0; height: 100%;
+}
+
+#toast-container {
+  position: absolute; 
+  top: 20px; 
+  right: 20px;
+  z-index: 1050;
+}
+.toast {
+  min-width: 250px;
+}
+.toast-icon {
+  width: 20px; 
+  height: 20px;
+}
+
+#project-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+#project-panel {
+  position: absolute;
+  left: 40px;
+  right: 40px;
+  min-width: 720px;
+  min-height: 400px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+#mask-container {
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 1060;
+}
+#mask-container .waiting-spinner {
+  position: absolute;
+  left: calc(50% - 64px);
+  top: calc(50% - 64px);
+}
+
+#header {
+  background-color: #23262e !important;
+}
+
+#left-menu {
+  height: 100%;
+  min-width: 200px;
+  width: 200px;
+  padding-top: 20px;
+  background: #383d49;
+}
+.left-menu-item {
+  padding: 8px 20px;
+  position: relative;
+}
+.left-menu-item a {
+  color: #c2c6ce !important;
+}
+.left-menu-item a i {
+  font-size: 20px;
+}
+.menu-item-active {
+  background-color: #455563;
+}
+.menu-item-active a::after {
+  position: absolute;
+  content: '';
+  top: 0;
+  right: auto;
+  left: 0;
+  height: 46px;
+  width: 5px;
+  background-color: #5FB878;
+}
+
+#container { 
+  height: 100%;
+  width: 100%;
+  display: flex;
+  min-width: 800px;
+  min-height: 600px;
+}
+#tool-menu {
+  min-width: 250px;
+  width: 250px; 
+  height: 100%;
+  background: #32363c;
+  padding: 20px;
+}
+#tool-menu .menu-panel {
+  margin-bottom: 20px;
+}
+#tool-menu .title {
+  color: white;
+  font-weight: bold;
+}
+#tool-menu .divider {
+  height: 1px;
+  background: white;
+  width: 100%;
+  margin: 10px 0;
+}
+#tool-menu .render-info-line .render-info-value {
+  float: right;
+}
+#canvas-container { 
+  overflow: hidden;
+  background: #232323;
+  width: calc(100% - 750px);
+}
+#canvas-container, #canvas { 
+  height: 100%;
+  width: 100%;
+}
+#property-menu {
+  min-width: 300px;
+  width: 300px; 
+  height: 100%;
+  background: #32363c;
+  padding: 20px;
+}
+#property-menu .menu-panel {
+  margin-bottom: 20px;
+}
+#property-menu .title {
+  color: white;
+  font-weight: bold;
+}
+#property-menu .divider {
+  height: 1px;
+  background: white;
+  width: 100%;
+  margin: 10px 0;
+}
+#property-menu .render-info-line {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#property-menu .render-info-line p {
+  display: inline-block;
+  color: white;
+}
+/* #property-menu .render-info-line .render-info-key {
+} */
+.property-item {
+  background-color: #59646d;
+  border-color: #59646d;
+  margin-bottom: 10px;
+}
+.property-item .property-item-line {
+  margin-bottom: 10px;
+}
+.property-item .property-inline-text {
+  display: inline-block;
+  line-height: 34px;
+  color: white;
+  margin-bottom: 0;
+}
+.property-item .property-inline-btn {
+  float: right;
+}
+
+#project-panel {
+  padding: 32px;
+  max-height: 80%;
+  min-height: 60%;
+}
+#project-panel .project-container {
+  overflow: auto;
+  position: absolute;
+  height: calc(100% - 64px - 54px);
+  width: calc(100% - 64px);
+  background: #ccc;
+  border-radius: 10px;
+  padding: 16px;
+}
+#project-panel .project-container .project-item {
+  background: white;
+  border-radius: 10px;
+  width: 180px;
+  height: 250px;
+  padding: 10px;
+  text-align: center;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  display: inline-block;
+}
+#project-panel .project-container .project-item img {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 10px;
+}
+#project-panel .project-container .project-item .project-info {
+  width: 160px;
+  min-width: 160px;
+  max-width: 160px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 5px;
+}
+#project-panel .project-panel-header {
+  margin-bottom: 16px;
+}

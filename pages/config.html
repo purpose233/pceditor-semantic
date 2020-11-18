@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Editor</title>
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./config.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-dark bg-dark" id="header">
+      <a class="navbar-brand" href="#">PCEditor</a>
+    </nav>
+
+    <div id="container">
+      <div id="left-menu">
+        <div class="left-menu-item">
+          <a href="./project.html">
+            <i class="iconfont">&#xe64c;</i>
+            项目管理
+          </a>
+        </div>
+        <div class="left-menu-item">
+          <a href="./pceditor.html">
+            <i class="iconfont">&#xe62b;</i>
+            点云编辑
+          </a>
+        </div>
+        <div class="left-menu-item menu-item-active">
+          <a href="./map.html">
+            <i class="iconfont">&#xe6e4;</i>
+            地图标注
+          </a>
+        </div>
+        <div class="left-menu-item">
+          <a href="./case.html">
+            <i class="iconfont">&#xe97d;</i>
+            用例生成
+          </a>
+        </div>
+        <div class="left-menu-item">
+          <a href="./generate.html">
+            <i class="iconfont">&#xe6db;</i>
+            场景构建
+          </a>
+        </div>
+        <div class="left-menu-item">
+          <a href="./validate.html">
+            <i class="iconfont">&#xe624;</i>
+            场景校验
+          </a>
+        </div>
+        <div class="left-menu-item">
+          <a href="./config.html">
+            <i class="iconfont">&#xe623;</i>
+            工具配置
+          </a>
+        </div>
+      </div>
+
+      <div id="tool-menu">
+        <div class="menu-panel selector-panel">
+          <h5 class="title">筛选器</h5>
+          <div class='divider'></div>
+          <button type="button" class="btn btn-light btn-block" id="noneSelector">
+            <i class="iconfont">&#xe64d;</i>
+            无筛选器
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="boxSelector">
+            <i class="iconfont">&#xe619;</i>
+            方形筛选器
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="sphereSelector">
+            <i class="iconfont">&#xe65e;</i>
+            球形筛选器
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="brushSelector">
+            <i class="iconfont">&#xe7d1;</i>
+            笔刷筛选器
+          </button>
+        </div>
+
+        <div class="menu-panel display-panel">
+          <h5 class="title">显示</h5>
+          <div class="divider"></div> 
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe622;</i>
+            显示坐标系
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe619;</i>
+            显示包围盒
+          </button>
+        </div>
+
+        <div class="menu-panel operation-panel">
+          <h5 class="title">操作</h5>
+          <div class="divider"></div>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe61a;</i>
+            撤销
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe613;</i>
+            重做
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe62c;</i>
+            删除点云
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe6a3;</i>
+            隐藏点云
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont">&#xe639;</i>
+            语义标注
+          </button>
+        </div>
+          
+      </div>
+
+      <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+      </div>
+
+      <div id="property-menu">        
+        <div class="menu-panel semantic-panel">
+          <h5 class="title">点云语义</h5>
+          <div class="divider"></div>
+          <div class="property-item card">
+            <div class="card-body">
+              <input type="text" class="form-control property-item-line" placeholder="墙面01">
+              <select class="form-control property-item-line">
+                <option selected>墙面</option>
+                <option>瓷砖</option>
+              </select>
+              <button type="button" class="btn btn-primary btn-sm" id="">
+                <i class="iconfont">&#xe6cc;</i>
+              </button>
+              <button type="button" class="btn btn-danger btn-sm" id="">
+                <i class="iconfont">&#xe62c;</i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-panel hidden-panel">
+          <h5 class="title">隐藏点云</h5>
+          <div class="divider"></div>
+          <div class="property-item card">
+            <div class="card-body">
+              <p class="property-inline-text">隐藏点云1</p>
+              <button type="button" class="btn btn-danger btn-sm property-inline-btn" id="">
+                <i class="iconfont">&#xe62c;</i>
+              </button>
+            </div>
+          </div>
+          <div class="property-item card">
+            <div class="card-body">
+              <p class="property-inline-text">隐藏点云2</p>
+              <button type="button" class="btn btn-danger btn-sm property-inline-btn" id="">
+                <i class="iconfont">&#xe62c;</i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-panel render-panel">
+          <h5 class="title">渲染信息</h5>
+          <div class="divider"></div>
+          <div class="render-info-line">
+            <p class="render-info-key">Rendering Nodes: </p>
+            <p class="render-info-value" id="renderInfoNodes">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Loaded Nodes: </p>
+            <p class="render-info-value" id="renderInfoLoadedNodes">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Rendering Points: </p>
+            <p class="render-info-value" id="renderInfoPoints">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Max Rendeing LoD: </p>
+            <p class="render-info-value" id="renderInfoMaxLoD">0</p>
+          </div>
+          <div class="render-info-line">
+            <p class="render-info-key">Selected Points: </p>
+            <p class="render-info-value" id="renderInfoSelectedPoints">0</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div id="toast-container"></div>
+    
+    <script>
+      window.nodeRequire = require;
+      delete window.require;
+      delete window.exports;
+      delete window.module;
+    </script>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script>
+      nodeRequire('../build/index.js');
+    </script>
+    <!-- <script>
+      require('./node_modules/bootstrap/dist/js/bootstrap.min.js');
+    </script>
+    <script>
+      require('./dist/index.js');
+    </script> -->
+  </body>
+</html>
