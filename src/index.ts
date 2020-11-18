@@ -65,6 +65,61 @@ declare global {
     renderController.setRenderInfo(info);
   });
 
+  // additional operations
+  let axesVisible = false;
+  const showAxesBtn = document.getElementById('showAxes');
+  showAxesBtn?.addEventListener('click', () => {
+    axesVisible = !axesVisible;
+    pcScene.setAxesVisible(axesVisible);
+    if (axesVisible) {
+      showAxesBtn.classList.remove('btn-secondary');
+      showAxesBtn.classList.add('btn-light');
+    } else {
+      showAxesBtn.classList.add('btn-secondary');
+      showAxesBtn.classList.remove('btn-light');
+    }
+  });
+  let bboxVisible = false;
+  const showBBoxBtn = document.getElementById('showBBox');
+  showBBoxBtn?.addEventListener('click', () => {
+    bboxVisible = !bboxVisible;
+    pcScene.setRootBBoxVisible(bboxVisible);
+    if (bboxVisible) {
+      showBBoxBtn.classList.remove('btn-secondary');
+      showBBoxBtn.classList.add('btn-light');
+    } else {
+      showBBoxBtn.classList.add('btn-secondary');
+      showBBoxBtn.classList.remove('btn-light');
+    }
+  });
+  const deleteBtn = document.getElementById('deletePoints');
+  deleteBtn?.addEventListener('click', () => {
+    const selector = renderer.getSelector();
+    if (selector) {
+      selector.deletePoints(scene);
+    }
+  });
+  const translateBtn = document.getElementById('translateConfirm');
+  const translateXInput = document.getElementById('translateX');
+  const translateYInput = document.getElementById('translateY');
+  const translateZInput = document.getElementById('translateZ');
+  translateBtn?.addEventListener('click', () => {
+    const x = translateXInput ? Number.parseFloat((translateXInput as HTMLInputElement).value) : 0;
+    const y = translateYInput ? Number.parseFloat((translateYInput as HTMLInputElement).value) : 0;
+    const z = translateZInput ? Number.parseFloat((translateZInput as HTMLInputElement).value) : 0;
+    pcScene.translateAxes(x, y, z);
+  });
+  const rotateBtn = document.getElementById('rotateConfirm');
+  const rotateXInput = document.getElementById('rotateX');
+  const rotateYInput = document.getElementById('rotateY');
+  const rotateZInput = document.getElementById('rotateZ');
+  rotateBtn?.addEventListener('click', () => {
+    const x = rotateXInput ? Number.parseFloat((rotateXInput as HTMLInputElement).value) : 0;
+    const y = rotateYInput ? Number.parseFloat((rotateYInput as HTMLInputElement).value) : 0;
+    const z = rotateZInput ? Number.parseFloat((rotateZInput as HTMLInputElement).value) : 0;
+    pcScene.rotateAxes(x, y, z);
+  });
+
   /*
   const projectController = new ProjectController();
   projectController.init();

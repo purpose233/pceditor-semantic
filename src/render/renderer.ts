@@ -26,6 +26,10 @@ export class PCRenderer {
     this.tree = tree;
   }
 
+  public getSelector(): BaseSelector | null {
+    return this.selector;
+  }
+
   public setRenderInfoChangeCB(callback: (info: RenderInfoType) => void): void {
     this.renderInfoChangeCB = callback;
   }
@@ -39,6 +43,12 @@ export class PCRenderer {
   //   await this.lru.requireNodes(this.tree.getAllNodes() as RenderNode[]);
   //   this.renderNodesTree(this.tree.getRootNode() as RenderNode, scene, camera);
   // }
+
+  public setRootBBoxVisible(isVisible: boolean, scene: Scene): void {
+    isVisible
+    ? (this.tree.getRootNode() as RenderNode).renderBBox(scene)
+    : (this.tree.getRootNode() as RenderNode).unrenderBBox(scene);
+  }
 
   public async renderTree(scene: Scene, camera: PerspectiveCamera): Promise<void> {
     if (!this.isSelectorControlEnabled) {

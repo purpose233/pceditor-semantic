@@ -20,6 +20,8 @@ export class PCScene {
   private pcRenderer: PCRenderer;
   private isEnabled: boolean = true;
 
+  private axesMesh: AxesHelper;
+
   constructor(container: HTMLElement, canvas: HTMLCanvasElement, renderer: PCRenderer) {
     this.container = container;
     this.canvas = canvas;
@@ -75,10 +77,12 @@ export class PCScene {
 
     // const gridHelper = new GridHelper(10, 10, new Color(0xffffff));
     // this.scene.add(gridHelper);
-    const axesHelper = new AxesHelper(10);
-    this.scene.add(axesHelper);
+    this.axesMesh = new AxesHelper(20);
+    // this.bboxMesh = new 
+    // this.scene.add(axesHelper);
 
     this.animate();
+    console.log(this.axesMesh, this.camera);
   }
 
   public drop(container: HTMLElement): void {
@@ -89,6 +93,34 @@ export class PCScene {
     // remove stats
     this.stats.end();
     container.removeChild(this.stats.dom);
+  }
+
+  public translateAxes(x: number, y: number, z: number): void {
+    this.axesMesh.translateX(x);
+    this.axesMesh.translateY(y);
+    this.axesMesh.translateZ(z);
+    this.camera.translateX(x);
+    this.camera.translateY(y);
+    this.camera.translateZ(z);
+  }
+
+  public rotateAxes(x: number, y: number, z: number): void {
+    this.axesMesh.rotateX(x);
+    this.axesMesh.rotateY(y);
+    this.axesMesh.rotateZ(z);
+    this.camera.rotateX(x);
+    this.camera.rotateY(y);
+    this.camera.rotateZ(z);
+  }
+
+  public setRootBBoxVisible(isVisible: boolean): void {
+    this.pcRenderer.setRootBBoxVisible(isVisible, this.scene);
+  }
+
+  public setAxesVisible(isVisible: boolean): void {
+    isVisible
+    ? this.scene.add(this.axesMesh)
+    : this.scene.remove(this.axesMesh);
   }
 
   public getScene(): Scene { return this.scene; }

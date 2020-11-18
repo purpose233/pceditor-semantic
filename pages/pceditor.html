@@ -72,20 +72,20 @@
             <i class="iconfont">&#xe65e;</i>
             球形筛选器
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="brushSelector">
+          <!-- <button type="button" class="btn btn-secondary btn-block" id="brushSelector">
             <i class="iconfont">&#xe7d1;</i>
             笔刷筛选器
-          </button>
+          </button> -->
         </div>
 
         <div class="menu-panel display-panel">
           <h5 class="title">显示</h5>
           <div class="divider"></div> 
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <button type="button" class="btn btn-secondary btn-block" id="showAxes">
             <i class="iconfont">&#xe622;</i>
             显示坐标系
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <button type="button" class="btn btn-secondary btn-block" id="showBBox">
             <i class="iconfont">&#xe619;</i>
             显示包围盒
           </button>
@@ -102,17 +102,37 @@
             <i class="iconfont">&#xe613;</i>
             重做
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <button type="button" class="btn btn-secondary btn-block" id="deletePoints">
             <i class="iconfont">&#xe62c;</i>
             删除点云
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <!-- <button type="button" class="btn btn-secondary btn-block" id="">
             <i class="iconfont">&#xe6a3;</i>
             隐藏点云
           </button>
           <button type="button" class="btn btn-secondary btn-block" id="">
             <i class="iconfont">&#xe639;</i>
             语义标注
+          </button> -->
+          <button
+            type="button"
+            class="btn btn-secondary btn-block"
+            id="translatePoints"
+            data-toggle="modal" 
+            data-target="#translateModal"
+          >
+            <i class="iconfont">&#xe616;</i>
+            平移点云
+          </button>
+          <button
+            type="button"
+            class="btn btn-secondary btn-block"
+            id="rotatePoints"
+            data-toggle="modal" 
+            data-target="#rotateModal"
+          >
+            <i class="iconfont">&#xe615;</i>
+            旋转点云
           </button>
         </div>
           
@@ -123,6 +143,7 @@
       </div>
 
       <div id="property-menu">        
+        <!--
         <div class="menu-panel semantic-panel">
           <h5 class="title">点云语义</h5>
           <div class="divider"></div>
@@ -163,7 +184,7 @@
             </div>
           </div>
         </div>
-
+        -->
         <div class="menu-panel render-panel">
           <h5 class="title">渲染信息</h5>
           <div class="divider"></div>
@@ -191,6 +212,78 @@
 
       </div>
 
+    </div>
+
+    <div class="modal fade" id="translateModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">平移点云</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">X: </label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="translateX" value="0">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Y: </label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="translateY" value="0">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Z: </label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="translateZ" value="0">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="translateConfirm" data-dismiss="modal">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="rotateModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">旋转点云</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">X: </label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="rotateX" value="0">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Y: </label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="rotateY" value="0">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Z: </label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="rotateZ" value="0">
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="rotateConfirm" data-dismiss="modal">确定</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="toast-container"></div>
