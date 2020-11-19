@@ -9,7 +9,9 @@ export class Polygon {
   protected points: Point[] = [];
   protected drawingPoint: Point | null = null;
   protected isClosed: boolean = false;
-  protected isVisible: boolean = true;
+  protected visible: boolean = true;
+
+  public getID(): number { return this.id; }
 
   public draw(context: CanvasRenderingContext2D): void {
     console.log('draw');
@@ -64,6 +66,10 @@ export class Polygon {
 
   public isClosePoint(point: Point): boolean {
     return this.points.length > 2 && point === this.points[0];
+  }
+
+  public setVisible(visible: boolean) {
+    this.visible = visible;
   }
 
   // public replaceRecentPoint(point: Point): void {

@@ -10,6 +10,8 @@ export class Point {
   // private refItem: 
   private position: Vector2;
 
+  public getID(): number { return this.id; }
+  
   constructor(position?: Vector2) {
     this.position = position ? position.clone() : new Vector2(0, 0);
   }

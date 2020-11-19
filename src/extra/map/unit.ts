@@ -7,8 +7,10 @@ const UnitPointSize = 5;
 export class Unit extends Polygon {
 
   public draw(context: CanvasRenderingContext2D): void {
+    if (!this.visible) return;
     const drawingPoints = [ ...this.points ];
     if (this.drawingPoint) drawingPoints.push(this.drawingPoint);
+    if (this.isClosed) drawingPoints.push(this.points[0]);
     context.fillStyle = UnitPointColor;
     context.strokeStyle = UnitLineColor;
     for (let i = 0; i < drawingPoints.length; i++) {
