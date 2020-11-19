@@ -13,9 +13,7 @@ export class Polygon {
 
   public getID(): number { return this.id; }
 
-  public draw(context: CanvasRenderingContext2D): void {
-    console.log('draw');
-  }
+  public draw(context: CanvasRenderingContext2D): void {}
 
   public addDrawingPoint(x: number, y: number): void {
     this.drawingPoint = new Point(new Vector2(x, y));
@@ -68,7 +66,7 @@ export class Polygon {
     return this.points.length > 2 && point === this.points[0];
   }
 
-  public setVisible(visible: boolean) {
+  public setVisible(visible: boolean): void {
     this.visible = visible;
   }
 

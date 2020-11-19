@@ -4,6 +4,7 @@ import { Unit } from './unit';
 import { Point } from './point';
 import { Vector2 } from "three";
 import { ItemController } from "./itemController";
+import { Obstacle } from "./obstacle";
 
 export class MapController {
 
@@ -14,7 +15,7 @@ export class MapController {
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
 
   private units: Unit[] = [];
-  // private obstacles: 
+  private obstacles: Obstacle[] = [];
   private drawingItem: Polygon | null = null;
   private dragginPoint: Point | null = null;
 
@@ -29,9 +30,19 @@ export class MapController {
       }
       this.drawCanvas();
     });
-
     this.itemController.setOnUnitVisibleCB((unit: Unit, visible: boolean): void => {
       unit.setVisible(visible);
+      this.drawCanvas();  
+    });
+    this.itemController.setOnObstacleDeleteCB((obstacle: Obstacle): void => {
+      const index = this.obstacles.indexOf(obstacle);
+      if (index >= 0) {
+        this.obstacles.splice(index, 1);
+      }
+      this.drawCanvas();
+    });
+    this.itemController.setOnObstacleVisibleCB((obstacle: Obstacle, visible: boolean): void => {
+      obstacle.setVisible(visible);
       this.drawCanvas();  
     });
 
@@ -71,11 +82,30 @@ export class MapController {
             this.drawingItem.addDrawingPoint(x, y);
           }
         }
-        // this.isDrawingPoint = true;
       }
-      // if (operationType === 'obstacle') {
-
-      // }
+      if (operationType === 'obstacle') {
+        if (!this.drawingItem) {
+          this.drawingItem = new Obstacle();
+          this.obstacles.push(this.drawingItem);
+          this.drawingItem.addDrawingPoint(x, y);
+        } else {
+          const hoveredPoint = this.checkExistedPoints(x, y);
+          if (hoveredPoint) {
+            if (this.drawingItem.isClosePoint(hoveredPoint)) {
+              this.drawingItem.setClosed();
+              this.drawingItem.clearDrawingPoint();
+              this.itemController.addObstacleItem(this.drawingItem as Obstacle);
+              this.drawingItem = null;
+            } else {
+              this.drawingItem.confirmDrawingPoint(hoveredPoint);
+              this.drawingItem.addDrawingPoint(x, y);
+            }
+          } else {
+            this.drawingItem.confirmDrawingPoint();
+            this.drawingItem.addDrawingPoint(x, y);
+          }
+        }
+      }
       this.drawCanvas();
     });
     this.canvas.addEventListener('mousemove', (e) => {
@@ -87,7 +117,7 @@ export class MapController {
           this.dragginPoint.setPosition(new Vector2(x, y));
         }
       }
-      if (operationType === 'unit') {
+      if (operationType === 'unit' || operationType === 'obstacle') {
         if (this.drawingItem && this.drawingItem.isDrawing()) {
           const hoveredPoint = this.checkExistedPoints(x, y);
           if (hoveredPoint) {
@@ -109,7 +139,6 @@ export class MapController {
       if (operationType === 'hand') {
         this.dragginPoint = null;
       }
-      // if (operationType === 'unit') { }
       this.drawCanvas();
     });
   }
@@ -123,6 +152,9 @@ export class MapController {
     for (const unit of this.units) {
       unit.draw(this.context);
     }
+    for (const obstacle of this.obstacles) {
+      obstacle.draw(this.context);
+    }
   }
 
   public checkExistedPoints(x: number, y: number): Point | null {
@@ -132,7 +164,12 @@ export class MapController {
         const point = unit.checkHoveredPoint(x, y);
         if (point) { return point; }
       }
-      return null;
+    }
+    if (operationType === 'obstacle') {
+      for (const obstacle of this.obstacles) {
+        const point = obstacle.checkHoveredPoint(x, y);
+        if (point) { return point; }
+      }
     }
     return null;
   }
@@ -140,6 +177,10 @@ export class MapController {
   public checkAllExistedPoints(x: number, y: number): Point | null {
     for (const unit of this.units) {
       const point = unit.checkHoveredPoint(x, y);
+      if (point) { return point; }
+    }
+    for (const obstacle of this.obstacles) {
+      const point = obstacle.checkHoveredPoint(x, y);
       if (point) { return point; }
     }
     return null;

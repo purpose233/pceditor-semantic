@@ -14,6 +14,7 @@ module.exports = {
     'node': true,
   },
   rules: {
-    '@typescript-eslint/no-inferrable-types': 0
+    '@typescript-eslint/no-inferrable-types': 0,
+    '@typescript-eslint/no-empty-function': 0
   }
 };
