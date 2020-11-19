@@ -5,8 +5,9 @@ import { deserializeIndex } from '../common/serialize';
 import { RenderTree } from '../render/renderTree';
 import { ToastController } from '../ui/toastController';
 import { RenderController } from '../ui/renderController';
-import { ExportIndexName } from '../common/constants';
+import { ExportIndexName, setOrtPointSize } from '../common/constants';
 import { SelectorNameType, RenderInfoType, ManifestType, ConfigProjectType } from '../common/types';
+import { MapController } from './map/mapController';
 
 declare global {
   interface Window {
@@ -16,6 +17,8 @@ declare global {
 
 (async () => {
   
+  setOrtPointSize();
+
   const container = document.getElementById('canvas-container') as HTMLElement;
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
@@ -26,6 +29,9 @@ declare global {
   const renderer = new PCRenderer(renderTree);
   const pcScene = new PCScene(container, canvas, renderer);
 
+  console.log(renderer);
+  const mapController = new MapController();
+  mapController.init();
   // const renderController = new RenderController();
   // renderController.init();
   // renderer.setRenderInfoChangeCB((info: RenderInfoType) => {

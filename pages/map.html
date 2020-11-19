@@ -60,14 +60,25 @@
         <div class="menu-panel draw-panel">
           <h5 class="title">绘制</h5>
           <div class='divider'></div>
-          <button type="button" class="btn btn-light btn-block" id="noneSelector">
+          <button type="button" class="btn btn-light btn-block" id="hand">
             <i class="iconfont-map">&#xe662;</i>
+            手型工具
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="boxSelector">
-            <i class="iconfont-map">&#xe672;</i>
+          <button type="button" class="btn btn-secondary btn-block" id="unitLine">
+            <i class="iconfont-map">&#xe64f;</i>
+            Unit标注
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="boxSelector">
+          <!-- <button type="button" class="btn btn-secondary btn-block" id="boxSelector">
             <i class="iconfont-map">&#xe639;</i>
+            Unit
+          </button> -->
+          <button type="button" class="btn btn-secondary btn-block" id="obsLine">
+            <i class="iconfont-map">&#xe78f;</i>
+            Obstacle标注
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="obsLine">
+            <i class="iconfont-map">&#xe672;</i>
+            Opening标注
           </button>
         </div>
 
@@ -95,38 +106,22 @@
             <i class="iconfont-map">&#xe7c3;</i>
             删除
           </button>
+          <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont-map">&#xe791;</i>
+            导出地图
+          </button>
         </div>
         
       </div>
 
       <div id="canvas-container">
         <canvas id="canvas"></canvas>
-      </div>
-
-      <div class="menu-panel item-panel">
-        <h5 class="title">元素</h5>
-        <div class="divider"></div>
-        <div class="property-item card">
-          <div class="card-body">
-            <p class="property-inline-text">隐藏点云1</p>
-            <button type="button" class="btn btn-danger btn-sm property-inline-btn" id="">
-              <i class="iconfont">&#xe62c;</i>
-            </button>
-          </div>
-        </div>
-        <div class="property-item card">
-          <div class="card-body">
-            <p class="property-inline-text">隐藏点云2</p>
-            <button type="button" class="btn btn-danger btn-sm property-inline-btn" id="">
-              <i class="iconfont">&#xe62c;</i>
-            </button>
-          </div>
-        </div>
+        <canvas id="map-canvas"></canvas>
       </div>
 
       <div id="property-menu">        
-        <div class="menu-panel property-panel">
-          <h5 class="title">属性</h5>
+        <div class="menu-panel item-panel">
+          <h5 class="title">元素</h5>
           <div class="divider"></div>
           <div class="property-item card">
             <div class="card-body">

@@ -3,7 +3,7 @@ import { Points, Scene, BufferGeometry, Float32BufferAttribute,
   PointsMaterial, Line, 
   Color, Box3, Box3Helper, Vector3 } from 'three';
 import { deserializeNode, serializeNode } from '../common/serialize';
-import { DefaultPointSize, SelectedPointColor, BBoxColor, OutlineRatio, OutlineColor, ExportTempPostfix } from '../common/constants';
+import { SelectedPointColor, BBoxColor, OutlineRatio, OutlineColor, ExportTempPostfix, getPointSize } from '../common/constants';
 import { RenderPoint } from './renderPoint';
 import { MNOPoint } from '../tree/mnoPoint';
 import { BoundingBox } from '../common/bbox';
@@ -176,7 +176,7 @@ export class RenderNode extends MNONode {
     geometry.computeBoundingBox();
     // const outlineMaterial = new PointsMaterial({size: DefaultPointSize * OutlineRatio, color: OutlineColor});
     // const outlineMesh = new Points(geometry, outlineMaterial);
-    const material = new PointsMaterial({size: DefaultPointSize, vertexColors: true});
+    const material = new PointsMaterial({size: getPointSize(), vertexColors: true});
     const mesh = new Points(geometry, material);
     // mesh.add(outlineMesh);
     return mesh;

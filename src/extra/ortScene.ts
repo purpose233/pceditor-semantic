@@ -1,5 +1,5 @@
 import { Scene, OrthographicCamera, PerspectiveCamera,
-  WebGLRenderer, Color, AxesHelper, Vector3 } from 'three';
+  WebGLRenderer, Color, AxesHelper, Vector3, Points } from 'three';
 import Stats from 'stats.js';
 import { PCRenderer } from '../render/renderer';
 import { TrackballControls } from '../../lib/TrackballControls';
@@ -23,10 +23,22 @@ export class PCScene {
     this.scene = new Scene();
     // this.camera = new OrthographicCamera(-container.clientWidth /2, container.clientWidth / 2,
     //   -container.clientHeight / 2, container.clientHeight / 2, 1, 10000);
-    this.camera = new OrthographicCamera(-10, 10, -10, 10, 1, 10000);
-    this.camera.position.set(0, 0, -16);
+    // this.camera = new OrthographicCamera(-10, 10, -10, 10, 1, 10000);
+    const bboxMin = renderer.getBBox().getMin();
+    const bboxMax = renderer.getBBox().getMax();
+    const bboxCenter = renderer.getBBox().getCenter();
+    const bboxX = bboxMax.x - bboxMin.x;
+    const bboxY = bboxMax.y - bboxMin.y;
+    this.camera = new OrthographicCamera(bboxX / -2, bboxX / 2, bboxY / -2, bboxY / 2, 1, 10000);
+    this.camera.position.set(0, 0, -1);
+    // this.camera.position.set(bboxCenter.x, bboxCenter.y, bboxMin.z);
+    // this.camera.position.set(bboxCenter.x, bboxCenter.y, -1);
     // this.camera.lookAt(this.scene.position);
+    // this.camera.lookAt(bboxCenter.x, bboxCenter.y, bboxCenter.z);
+    // this.camera.position.set(0, 0, -1);
+    // this.camera.lookAt(bboxCenter.x, bboxCenter.y, bboxCenter.z);
     this.camera.lookAt(this.scene.position);
+    this.camera.updateProjectionMatrix();
     this.camera.updateMatrix();
     this.pcRenderer = renderer;
 
@@ -50,8 +62,8 @@ export class PCScene {
 
     // const gridHelper = new GridHelper(10, 10, new Color(0xffffff));
     // this.scene.add(gridHelper);
-    const axesHelper = new AxesHelper(10);
-    this.scene.add(axesHelper);
+    // const axesHelper = new AxesHelper(10);
+    // this.scene.add(axesHelper);
 
     // this.animate();
     this.render();
@@ -94,7 +106,24 @@ export class PCScene {
     // this.flag = false;
     // const camera = new PerspectiveCamera(45, this.container.clientWidth / this.container.clientHeight, 1, 10000);
     await this.pcRenderer.renderTree(this.scene, this.camera as any);
-    this.camera.updateMatrixWorld();
+    this.adjustPointsPosition();
+    this.camera.updateProjectionMatrix();
+    this.camera.updateMatrix();
     this.renderer.render(this.scene, this.camera);
+  }
+
+  private adjustPointsPosition() {
+    const bboxMin = this.pcRenderer.getBBox().getMin();
+    const bboxMax = this.pcRenderer.getBBox().getMax();
+    const bboxCenter = this.pcRenderer.getBBox().getCenter();
+    const bboxX = bboxMax.x - bboxMin.x;
+    const bboxY = bboxMax.y - bboxMin.y;
+    this.scene.children.forEach(mesh => {
+      if (mesh instanceof Points) {
+        mesh.translateX(-bboxCenter.x);
+        mesh.translateY(-bboxCenter.y);
+        // mesh.translateZ(-bboxCenter.z);
+      }
+    })
   }
 }

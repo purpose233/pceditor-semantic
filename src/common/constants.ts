@@ -66,3 +66,12 @@ export const ConfigFileName = 'manifest.json';
 export const ExportTempPostfix = '.temp';
 export const ExportIndexName = '/index';
 export const ExportDataName = '/n';
+
+// extra
+let pointSize = DefaultPointSize;
+export function setOrtPointSize(): void {
+  pointSize = OrthgraphicPointSize;
+}
+export function getPointSize(): number {
+  return pointSize;
+}

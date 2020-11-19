@@ -149,10 +149,16 @@ body, html {
   overflow: hidden;
   background: #232323;
   width: calc(100% - 750px);
+  position: relative;
 }
-#canvas-container, #canvas { 
+#canvas-container, #canvas, #map-canvas { 
   height: 100%;
   width: 100%;
+}
+#map-canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 #property-menu {
   min-width: 300px;
@@ -160,6 +166,7 @@ body, html {
   height: 100%;
   background: #32363c;
   padding: 20px;
+  overflow-y: auto;
 }
 #property-menu .menu-panel {
   margin-bottom: 20px;
