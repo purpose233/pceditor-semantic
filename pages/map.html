@@ -76,7 +76,7 @@
             <i class="iconfont-map">&#xe78f;</i>
             Obstacle标注
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="obsLine">
+          <button type="button" class="btn btn-secondary btn-block" id="openingLine">
             <i class="iconfont-map">&#xe672;</i>
             Opening标注
           </button>
@@ -102,14 +102,18 @@
             <i class="iconfont-map">&#xe788;</i>
             重做
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <button type="button" class="btn btn-secondary btn-block" id="delete-point">
             <i class="iconfont-map">&#xe7c3;</i>
-            删除
+            删除绘制点
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <button type="button" class="btn btn-secondary btn-block" id="export-map">
             <i class="iconfont-map">&#xe791;</i>
             导出地图
           </button>
+          <!-- <button type="button" class="btn btn-secondary btn-block" id="">
+            <i class="iconfont-map">&#xe60d;</i>
+            合并元素
+          </button> -->
         </div>
         
       </div>
@@ -153,6 +157,31 @@
                 <option selected>静态障碍物</option>
                 <option>可移动障碍物</option>
               </select>
+              <button type="button" class="btn btn-success btn-sm visible-btn">
+                <i class="iconfont-map">&#xe667;</i>
+              </button>
+              <button type="button" class="btn btn-primary btn-sm visible-btn">
+                <i class="iconfont">&#xe6cc;</i>
+              </button>
+              <button type="button" class="btn btn-danger btn-sm delete-btn">
+                <i class="iconfont">&#xe62c;</i>
+              </button>
+            </div>
+          </div> -->
+        </div>
+        <div class="menu-panel opening-panel" id="opening-panel">
+          <h5 class="title">Opening元素</h5>
+          <div class="divider"></div>
+          <!-- <div class="property-item card" id="opening-${opening.getID()}">
+            <div class="card-body">
+              <input type="text" class="form-control property-item-line name-input" placeholder="Obstacle名称">
+              <select class="form-control property-item-line type-select">
+                <option selected>静态障碍物</option>
+                <option>可移动障碍物</option>
+              </select>
+              <button type="button" class="btn btn-success btn-sm visible-btn">
+                <i class="iconfont-map">&#xe667;</i>
+              </button>
               <button type="button" class="btn btn-primary btn-sm visible-btn">
                 <i class="iconfont">&#xe6cc;</i>
               </button>

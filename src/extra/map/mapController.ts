@@ -5,17 +5,21 @@ import { Point } from './point';
 import { Vector2 } from "three";
 import { ItemController } from "./itemController";
 import { Obstacle } from "./obstacle";
+import { Opening } from "./opening";
 
 export class MapController {
 
   private operationController: OperationController = new OperationController();
   private itemController: ItemController = new ItemController();
+  private exportBtn: HTMLElement = document.getElementById('export-map') as HTMLElement;
+  private deleteBtn: HTMLElement = document.getElementById('delete-point') as HTMLElement;
 
   private canvas: HTMLCanvasElement = document.getElementById('map-canvas') as HTMLCanvasElement;
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
 
   private units: Unit[] = [];
   private obstacles: Obstacle[] = [];
+  private openings: Opening[] = [];
   private drawingItem: Polygon | null = null;
   private dragginPoint: Point | null = null;
 
@@ -43,6 +47,17 @@ export class MapController {
     });
     this.itemController.setOnObstacleVisibleCB((obstacle: Obstacle, visible: boolean): void => {
       obstacle.setVisible(visible);
+      this.drawCanvas();  
+    });
+    this.itemController.setOnOpeningDeleteCB((opening: Opening): void => {
+      const index = this.openings.indexOf(opening);
+      if (index >= 0) {
+        this.openings.splice(index, 1);
+      }
+      this.drawCanvas();
+    });
+    this.itemController.setOnObstacleVisibleCB((opening: Opening, visible: boolean): void => {
+      opening.setVisible(visible);
       this.drawCanvas();  
     });
 
@@ -106,6 +121,22 @@ export class MapController {
           }
         }
       }
+      if (operationType === 'opening') {
+        if (!this.drawingItem) {
+          this.drawingItem = new Opening();
+          this.openings.push(this.drawingItem);
+          this.drawingItem.addDrawingPoint(x, y);
+        } else {
+          if (this.drawingItem.getPointCount() === 1) {
+            this.drawingItem.confirmDrawingPoint();
+            this.itemController.addOpeningItem(this.drawingItem as Opening);
+            this.drawingItem = null;
+          } else {
+            this.drawingItem.confirmDrawingPoint();
+            this.drawingItem.addDrawingPoint(x, y);
+          }
+        }
+      }
       this.drawCanvas();
     });
     this.canvas.addEventListener('mousemove', (e) => {
@@ -117,7 +148,11 @@ export class MapController {
           this.dragginPoint.setPosition(new Vector2(x, y));
         }
       }
-      if (operationType === 'unit' || operationType === 'obstacle') {
+      if (
+        operationType === 'unit'
+        || operationType === 'obstacle'
+        || operationType === 'opening'
+      ) {
         if (this.drawingItem && this.drawingItem.isDrawing()) {
           const hoveredPoint = this.checkExistedPoints(x, y);
           if (hoveredPoint) {
@@ -141,6 +176,12 @@ export class MapController {
       }
       this.drawCanvas();
     });
+  
+    this.deleteBtn.addEventListener('click', () => {
+      if (this.drawingItem) {
+        this.drawingItem.deleteRecentPoint();
+      }
+    });
   }
 
   public clearCanvas(): void {
@@ -154,6 +195,9 @@ export class MapController {
     }
     for (const obstacle of this.obstacles) {
       obstacle.draw(this.context);
+    }
+    for (const opening of this.openings) {
+      opening.draw(this.context);
     }
   }
 

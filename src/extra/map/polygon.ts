@@ -70,6 +70,16 @@ export class Polygon {
     this.visible = visible;
   }
 
+  public getPointCount(): number {
+    return this.points.length;
+  }
+
+  public deleteRecentPoint(): void {
+    if (this.points.length > 0) {
+      this.points.pop();
+    }
+  }
+
   // public replaceRecentPoint(point: Point): void {
   //   if (this.points.length <= 0) return;
   //   this.points.pop();
