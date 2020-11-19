@@ -33,6 +33,7 @@ export class MapController {
         this.units.splice(index, 1);
       }
       this.drawCanvas();
+      this.itemController.updateParentModelSelect(this.units);
     });
     this.itemController.setOnUnitVisibleCB((unit: Unit, visible: boolean): void => {
       unit.setVisible(visible);
@@ -68,7 +69,6 @@ export class MapController {
       const operationType = this.operationController.getCurrentOperationType();
       const x = e.offsetX;
       const y = e.offsetY;
-      // const x =
       if (operationType === 'hand') {
         const point = this.checkAllExistedPoints(x, y);
         if (point) {
@@ -87,6 +87,7 @@ export class MapController {
               this.drawingItem.setClosed();
               this.drawingItem.clearDrawingPoint();
               this.itemController.addUnitItem(this.drawingItem as Unit);
+              this.itemController.updateParentModelSelect(this.units);
               this.drawingItem = null;
             } else {
               this.drawingItem.confirmDrawingPoint(hoveredPoint);
@@ -181,6 +182,52 @@ export class MapController {
       if (this.drawingItem) {
         this.drawingItem.deleteRecentPoint();
       }
+    });
+    this.exportBtn.addEventListener('click', () => {
+      const map: any = { units: [], openings: [], obstacles: [] };
+      for (const unit of this.units) {
+        const unitInfo = this.itemController.getUnitInfo(unit);
+        const unitData = {
+          ...unitInfo,
+          id: unit.getID(),
+          feature_type: "unit",
+          location: null,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": unit.getCoordinates(),
+          },
+        };
+        map.units.push(unitData);
+      }
+      for (const obstacle of this.obstacles) {
+        const obstacleInfo = this.itemController.getObstacleInfo(obstacle);
+        const unitData = {
+          ...obstacleInfo,
+          id: obstacle.getID(),
+          feature_type: "obstacle",
+          location: null,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": obstacle.getCoordinates(),
+          },
+        };
+        map.obstacles.push(unitData);
+      }
+      for (const opening of this.openings) {
+        const openingeInfo = this.itemController.getOpeningInfo(opening);
+        const unitData = {
+          ...openingeInfo,
+          id: opening.getID(),
+          feature_type: "opening",
+          location: null,
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": opening.getCoordinates(),
+          },
+        };
+        map.openings.push(unitData);
+      }
+      console.log(map);
     });
   }
 

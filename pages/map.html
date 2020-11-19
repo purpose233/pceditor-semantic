@@ -192,7 +192,33 @@
           </div> -->
         </div>
       </div>
+    </div>
 
+    <div class="modal fade" id="parent-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="staticBackdropLabel">设置父元素</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">父元素: </label>
+              <div class="col-sm-10">
+                <select class="form-control property-item-line type-select" id="parent-unit-select">
+                  <option selected>Unit0-</option>
+                  <option>Unit1-</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>

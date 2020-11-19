@@ -80,6 +80,15 @@ export class Polygon {
     }
   }
 
+  public getCoordinates(): number[][] {
+    const coordinates: number[][] = [];
+    for (const point of this.points) {
+      const position = point.getPosition();
+      coordinates.push([position.x, position.y]);
+    }
+    return coordinates;
+  }
+
   // public replaceRecentPoint(point: Point): void {
   //   if (this.points.length <= 0) return;
   //   this.points.pop();
