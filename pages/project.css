@@ -121,3 +121,7 @@ body, html {
 #main-container .btn {
   margin-right: 20px;
 }
+#main-container .active-project {
+  background-color: #6f7d88;
+  border-color: #6f7d88;
+}

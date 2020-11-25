@@ -1,3 +1,4 @@
+import path from 'path';
 import { Color } from 'three';
 
 // Real World -> Three.js
@@ -74,4 +75,11 @@ export function setOrtPointSize(): void {
 }
 export function getPointSize(): number {
   return pointSize;
+}
+let projectPath = path.resolve(__dirname, '../projects/copyroom_sample');
+export function getProjectPath(): string {
+  return projectPath;
+}
+export function setProjestPath(path: string): void {
+  projectPath = path;
 }

@@ -5,7 +5,7 @@ import { deserializeIndex } from '../common/serialize';
 import { RenderTree } from '../render/renderTree';
 import { ToastController } from '../ui/toastController';
 import { RenderController } from '../ui/renderController';
-import { ExportIndexName, setOrtPointSize } from '../common/constants';
+import { ExportIndexName, getProjectPath, setOrtPointSize } from '../common/constants';
 import { SelectorNameType, RenderInfoType, ManifestType, ConfigProjectType } from '../common/types';
 import { MapController } from './map/mapController';
 
@@ -23,7 +23,7 @@ declare global {
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
   // render
-  const projectPath = path.resolve(__dirname, '../projects/copyroom_sample');
+  const projectPath = getProjectPath();
   const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
   console.log(renderTree);
   const renderer = new PCRenderer(renderTree);

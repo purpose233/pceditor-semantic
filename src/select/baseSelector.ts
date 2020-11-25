@@ -91,7 +91,7 @@ export abstract class BaseSelector {
     //  which contains points before updating could be cleared.
     this.selectTree.updateTreeRender(scene);
     this.selectTree.removeUnreachedNodes();
-  };
+  }
 
   // The function completeSelectTree won't change the node that already has selecting result, 
   //  but will check the previous unloaded node.

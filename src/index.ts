@@ -15,7 +15,7 @@ import { ToastController } from './ui/toastController';
 import { RenderController } from './ui/renderController';
 import { generateConfig, parseConfig, writeConfig } from './app/config';
 import { ProjectController } from './ui/projectController';
-import { ExportIndexName } from './common/constants';
+import { ExportIndexName, getProjectPath } from './common/constants';
 
 declare global {
   interface Window {
@@ -42,7 +42,7 @@ declare global {
   // tree = null;
 
   // render
-  const projectPath = path.resolve(__dirname, './projects/copyroom_sample');
+  const projectPath = getProjectPath();
   const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
   console.log(renderTree);
   const renderer = new PCRenderer(renderTree);

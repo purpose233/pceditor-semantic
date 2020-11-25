@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import { OperationController } from "./operationController";
 import { Polygon } from "./polygon";
 import { Unit } from './unit';
@@ -6,6 +8,8 @@ import { Vector2 } from "three";
 import { ItemController } from "./itemController";
 import { Obstacle } from "./obstacle";
 import { Opening } from "./opening";
+import { getProjectPath } from '../../common/constants';
+import { ToastController } from '../../ui/toastController';
 
 export class MapController {
 
@@ -16,6 +20,7 @@ export class MapController {
 
   private canvas: HTMLCanvasElement = document.getElementById('map-canvas') as HTMLCanvasElement;
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+  private toastController: ToastController = new ToastController();
 
   private units: Unit[] = [];
   private obstacles: Obstacle[] = [];
@@ -227,7 +232,12 @@ export class MapController {
         };
         map.openings.push(unitData);
       }
+      const metaPath = path.resolve(getProjectPath(), './project.json');
+      const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+      projectMetaData.map = map;
+      fs.writeFileSync(metaPath, JSON.stringify(projectMetaData, null, 2));
       console.log(map);
+      this.toastController.showToast('success', '地图数据导出', '成功导出地图数据！');
     });
   }
 
