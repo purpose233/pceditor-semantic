@@ -38,7 +38,8 @@ export class PCDConverter extends BaseConverter {
     await this.readLine(path, (data: string): void => {
       const words = data.split(' ');
       if (!isNaN(parseFloat(words[0]))) {
-        const vector = new Vector3(parseFloat(words[0]), parseFloat(words[2]), -parseFloat(words[1]));
+        // const vector = new Vector3(parseFloat(words[0]), parseFloat(words[2]), -parseFloat(words[1]));
+        const vector = new Vector3(parseFloat(words[0]), parseFloat(words[1]), parseFloat(words[2]));
         // TODO: directly modifying bbox private attributes through get function is bad design.
         bbox.getMax().max(vector);
         bbox.getMin().min(vector);
@@ -62,13 +63,16 @@ export class PCDConverter extends BaseConverter {
     this.createProjectDir(exportPath);
     let pointNumber = 0;
     let pointCount = 0;
+    console.log('aaa')
     const bbox = await this.readBoundingBox(filePath);
     const tree = new ConverterTree(exportPath, bbox);
     await this.readLine(filePath, (data: string) => {
       const words = data.split(' ');
       if (!isNaN(parseFloat(words[0]))) {
+        // const position = new Vector3(parseFloat(words[0]),
+        //   parseFloat(words[2]), -parseFloat(words[1]));
         const position = new Vector3(parseFloat(words[0]),
-          parseFloat(words[2]), -parseFloat(words[1]));
+          parseFloat(words[1]), parseFloat(words[2]));
         const color = new Color(parseInt(words[3]),
           parseInt(words[4]), parseInt(words[5]));
         const point = new ConverterPoint(position, color);

@@ -30,7 +30,7 @@ export class PCScene {
     const bboxX = bboxMax.x - bboxMin.x;
     const bboxY = bboxMax.y - bboxMin.y;
     this.camera = new OrthographicCamera(bboxX / -2, bboxX / 2, bboxY / -2, bboxY / 2, 1, 10000);
-    this.camera.position.set(0, 0, -1);
+    this.camera.position.set(0, 0, 0);
     // this.camera.position.set(bboxCenter.x, bboxCenter.y, bboxMin.z);
     // this.camera.position.set(bboxCenter.x, bboxCenter.y, -1);
     // this.camera.lookAt(this.scene.position);
@@ -67,6 +67,29 @@ export class PCScene {
 
     // this.animate();
     this.render();
+  }
+
+  public getSceneBounding() {
+    const bboxMin = this.pcRenderer.getBBox().getMin();
+    const bboxMax = this.pcRenderer.getBBox().getMax();
+    const bboxCenter = this.pcRenderer.getBBox().getCenter();
+    const bboxX = bboxMax.x - bboxMin.x;
+    const bboxY = bboxMax.y - bboxMin.y;
+    return {
+      minX: bboxMin.x,
+      maxX: bboxMax.x,
+      totalX: bboxX,
+      minY: bboxMin.y,
+      maxY: bboxMax.y,
+      totalY: bboxY,
+    };
+  }
+
+  public getCanvasSize() {
+    return {
+      width: this.canvas.width,
+      height: this.canvas.height,
+    };
   }
 
   public drop(container: HTMLElement): void {

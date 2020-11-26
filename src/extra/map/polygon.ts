@@ -1,4 +1,5 @@
 import { Vector2 } from "three";
+import { PCScene } from "../ortScene";
 import { Point } from "./point";
 
 let polygonID = 0;
@@ -6,10 +7,14 @@ let polygonID = 0;
 export class Polygon {
 
   protected id: number = polygonID++;
+  protected altName: string = '';
   protected points: Point[] = [];
   protected drawingPoint: Point | null = null;
   protected isClosed: boolean = false;
   protected visible: boolean = true;
+
+  public getName(): string { return this.altName; }
+  public setName(name: string): void { this.altName = name; }
 
   public getID(): number { return this.id; }
 
@@ -80,13 +85,30 @@ export class Polygon {
     }
   }
 
-  public getCoordinates(): number[][] {
+  public getCoordinates(scene: PCScene): number[][] {
+    const { minX, minY, totalX, totalY } = scene.getSceneBounding();
+    const { width, height } = scene.getCanvasSize();
     const coordinates: number[][] = [];
     for (const point of this.points) {
       const position = point.getPosition();
-      coordinates.push([position.x, position.y]);
+      const x = totalX / width * position.x + minX;
+      const y = totalY / height * position.y + minY;
+      coordinates.push([x, y]);
     }
     return coordinates;
+  }
+
+  public setCoordinates(scene: PCScene, coordinates: number[][]): void {
+    const { minX, minY, totalX, totalY } = scene.getSceneBounding();
+    const { width, height } = scene.getCanvasSize();
+    const points: Point[] = [];
+    for (const coordinate of coordinates) {
+      const x = (coordinate[0] - minX) * width / totalX;
+      const y = (coordinate[1] - minY) * height / totalY;
+      const point = new Point(new Vector2(x, y));
+      points.push(point);
+    }
+    this.points = points;
   }
 
   // public replaceRecentPoint(point: Point): void {

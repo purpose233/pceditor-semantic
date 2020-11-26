@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import { Vector2 } from 'three';
 
 export class ProjectInfo {
   private id: string;
@@ -35,6 +36,29 @@ export class ProjectInfo {
   public getSpecPath(): string { return this.specPath; }
 }
 
+// interface SceneMap {
+
+// }
+
+interface TestCase {
+  egoStart: Vector2;
+  egoEnd: Vector2;
+  collision: boolean;
+  timeout: boolean;
+  order: boolean;
+  path: Vector2[];
+  type: 'cover' | 'arrive';
+  // agent
+  // trigger
+  // extension
+}
+
+// interface ProjectSpec {
+//   info: ProjectInfo;
+//   map: SceneMap;
+//   cases: TestCase;
+// }
+
 export class ProjectController {
 
   private rootPath: string = path.resolve(__dirname, '../../build/projects');
@@ -43,7 +67,9 @@ export class ProjectController {
   private projects: ProjectInfo[] = [];
   
   public init(): void {
-    const config: any = fs.readFileSync(this.configPath, { encoding: 'utf-8' });
+    const config: any = JSON.parse(
+      fs.readFileSync(this.configPath, { encoding: 'utf-8' })
+    );
     for (const info of config.projects) {
       this.projects.push(new ProjectInfo(
         info.id,

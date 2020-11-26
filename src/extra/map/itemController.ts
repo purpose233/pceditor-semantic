@@ -56,7 +56,7 @@ export class ItemController {
     div.innerHTML = `
 <div class="property-item card" id="unit-${unit.getID()}">
   <div class="card-body">
-    <input type="text" class="form-control property-item-line name-input" placeholder="Unit名称">
+    <input type="text" class="form-control property-item-line name-input" placeholder="Unit名称" value="${unit.getName()}">
     <select class="form-control property-item-line category-select">
       <option selected>房间</option>
       <option>通道</option>
@@ -102,7 +102,7 @@ export class ItemController {
     div.innerHTML = `
 <div class="property-item card" id="obstacle-${obstacle.getID()}">
   <div class="card-body">
-    <input type="text" class="form-control property-item-line name-input" placeholder="Obstacle名称">
+    <input type="text" class="form-control property-item-line name-input" placeholder="Obstacle名称" value="${obstacle.getName()}">
     <select class="form-control property-item-line type-select">
       <option selected>静态障碍物</option>
       <option>可移动障碍物</option>
@@ -147,7 +147,7 @@ export class ItemController {
     div.innerHTML = `
 <div class="property-item card" id="opening-${opening.getID()}">
   <div class="card-body">
-    <input type="text" class="form-control property-item-line name-input" placeholder="Opening名称">
+    <input type="text" class="form-control property-item-line name-input" placeholder="Opening名称"  value="${opening.getName()}">
     <select class="form-control property-item-line type-select">
       <option selected>门</option>
     </select>

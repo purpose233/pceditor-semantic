@@ -8,6 +8,7 @@ import { RenderController } from '../ui/renderController';
 import { ExportIndexName, getProjectPath, setOrtPointSize } from '../common/constants';
 import { SelectorNameType, RenderInfoType, ManifestType, ConfigProjectType } from '../common/types';
 import { MapController } from './map/mapController';
+import { ProjectController } from './projectController';
 
 declare global {
   interface Window {
@@ -16,21 +17,24 @@ declare global {
 }
 
 (async () => {
-  
   setOrtPointSize();
 
   const container = document.getElementById('canvas-container') as HTMLElement;
   const canvas = document.getElementById('canvas') as HTMLCanvasElement;
 
+  const projectController = new ProjectController();
+  projectController.init();
+
   // render
   const projectPath = getProjectPath();
+  // const projectPath = projectController.getActiveProjectPath();
   const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
   console.log(renderTree);
   const renderer = new PCRenderer(renderTree);
   const pcScene = new PCScene(container, canvas, renderer);
 
   console.log(renderer);
-  const mapController = new MapController();
+  const mapController = new MapController(pcScene, projectController);
   mapController.init();
   // const renderController = new RenderController();
   // renderController.init();

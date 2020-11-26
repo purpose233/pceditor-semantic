@@ -8,10 +8,14 @@ import { Vector2 } from "three";
 import { ItemController } from "./itemController";
 import { Obstacle } from "./obstacle";
 import { Opening } from "./opening";
-import { getProjectPath } from '../../common/constants';
 import { ToastController } from '../../ui/toastController';
+import { PCScene } from '../ortScene';
+import { ProjectController } from '../projectController';
 
 export class MapController {
+
+  private pcScene: PCScene;
+  private projectController: ProjectController;
 
   private operationController: OperationController = new OperationController();
   private itemController: ItemController = new ItemController();
@@ -27,6 +31,11 @@ export class MapController {
   private openings: Opening[] = [];
   private drawingItem: Polygon | null = null;
   private dragginPoint: Point | null = null;
+
+  constructor(scene: PCScene, projectController: ProjectController) {
+    this.pcScene = scene;
+    this.projectController = projectController;
+  }
 
   public init(): void {
     this.operationController.init();
@@ -192,53 +201,86 @@ export class MapController {
       const map: any = { units: [], openings: [], obstacles: [] };
       for (const unit of this.units) {
         const unitInfo = this.itemController.getUnitInfo(unit);
-        const unitData = {
+        const data = {
           ...unitInfo,
           id: unit.getID(),
           feature_type: "unit",
           location: null,
           "geometry": {
             "type": "Polygon",
-            "coordinates": unit.getCoordinates(),
+            "coordinates": unit.getCoordinates(this.pcScene),
           },
         };
-        map.units.push(unitData);
+        map.units.push(data);
       }
       for (const obstacle of this.obstacles) {
         const obstacleInfo = this.itemController.getObstacleInfo(obstacle);
-        const unitData = {
+        const data = {
           ...obstacleInfo,
           id: obstacle.getID(),
           feature_type: "obstacle",
           location: null,
           "geometry": {
             "type": "Polygon",
-            "coordinates": obstacle.getCoordinates(),
+            "coordinates": obstacle.getCoordinates(this.pcScene),
           },
         };
-        map.obstacles.push(unitData);
+        map.obstacles.push(data);
       }
       for (const opening of this.openings) {
         const openingeInfo = this.itemController.getOpeningInfo(opening);
-        const unitData = {
+        const data = {
           ...openingeInfo,
           id: opening.getID(),
           feature_type: "opening",
           location: null,
           "geometry": {
             "type": "Polygon",
-            "coordinates": opening.getCoordinates(),
+            "coordinates": opening.getCoordinates(this.pcScene),
           },
         };
-        map.openings.push(unitData);
+        map.openings.push(data);
       }
-      const metaPath = path.resolve(getProjectPath(), './project.json');
+      const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
       const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
       projectMetaData.map = map;
       fs.writeFileSync(metaPath, JSON.stringify(projectMetaData, null, 2));
       console.log(map);
       this.toastController.showToast('success', '地图数据导出', '成功导出地图数据！');
     });
+  
+    this.readMap();
+  }
+
+  public readMap(): void {
+    const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
+    const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+    const map = projectMetaData.map;
+    console.log(projectMetaData);
+    for (const data of map.units) {
+      const unit = new Unit();
+      unit.setName(data.alt_name);
+      unit.setCoordinates(this.pcScene, data.geometry.coordinates);
+      unit.setClosed();
+      this.units.push(unit);
+      this.itemController.addUnitItem(unit);
+    }
+    for (const data of map.obstacles) {
+      const obstacle = new Obstacle();
+      obstacle.setName(data.alt_name);
+      obstacle.setCoordinates(this.pcScene, data.geometry.coordinates);
+      obstacle.setClosed();
+      this.obstacles.push(obstacle);
+      this.itemController.addObstacleItem(obstacle);
+    }
+    for (const data of map.openings) {
+      const opening = new Opening();
+      opening.setName(data.alt_name);
+      opening.setCoordinates(this.pcScene, data.geometry.coordinates);
+      this.openings.push(opening);
+      this.itemController.addOpeningItem(opening);
+    }
+    this.drawCanvas();
   }
 
   public clearCanvas(): void {
