@@ -133,10 +133,32 @@ body, html {
   overflow: hidden;
   background: #232323;
   width: calc(100% - 750px);
+  position: relative;
 }
 #canvas-container, #canvas { 
   height: 100%;
   width: 100%;
+}
+#map-canvas {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#grid-canvas {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+#case-canvas {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 #property-menu {
   min-width: 300px;

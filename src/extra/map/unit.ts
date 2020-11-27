@@ -6,6 +6,11 @@ const UnitPointSize = 5;
 
 export class Unit extends Polygon {
 
+  private cost: number = 0;
+  
+  public getCost(): number { return this.cost; }
+  public setCost(cost: number): void { this.cost = cost; }
+
   public draw(context: CanvasRenderingContext2D): void {
     if (!this.visible) return;
     const drawingPoints = [ ...this.points ];

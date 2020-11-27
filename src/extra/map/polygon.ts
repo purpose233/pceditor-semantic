@@ -116,4 +116,33 @@ export class Polygon {
   //   this.points.pop();
   //   this.points.push(point);
   // }
+
+  public checkPointInside(x: number, y: number): boolean {
+    if (this.points.length <= 2) { return false; }
+    // 暂不考虑在边上
+
+    // 与顶点重合
+    for (const point of this.points) {
+      const position = point.getPosition();
+      if (Math.abs(position.x - x) <= Number.EPSILON
+        && Math.abs(position.y - y) <= Number.EPSILON) {
+        return true;
+      }
+    }
+    // 凸多边形内部
+    const p = new Vector2(x, y);
+    let position0 = this.points[0].getPosition();
+    let position1 = this.points[1].getPosition();
+    let vAB = position1.clone().sub(position0);
+    let vAP = p.clone().sub(position0);
+    const flag = Math.sign(vAB.cross(vAP));
+    for (let i = 1; i < this.points.length - 1; i++) {
+      position0 = this.points[i].getPosition();
+      position1 = this.points[i + 1].getPosition();
+      vAB = position1.clone().sub(position0);
+      vAP = p.clone().sub(position0); 
+      if (Math.sign(vAB.cross(vAP)) !== flag) { return false; }
+    }
+    return true;
+  }
 }

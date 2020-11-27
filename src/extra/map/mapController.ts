@@ -38,6 +38,11 @@ export class MapController {
   }
 
   public init(): void {
+    this.canvas.width = this.canvas.clientWidth;
+    this.canvas.height = this.canvas.clientHeight;
+  }
+
+  public initEvents(): void {
     this.operationController.init();
     this.itemController.init();
 
@@ -46,34 +51,34 @@ export class MapController {
       if (index >= 0) {
         this.units.splice(index, 1);
       }
-      this.drawCanvas();
+      this.render();
       this.itemController.updateParentModelSelect(this.units);
     });
     this.itemController.setOnUnitVisibleCB((unit: Unit, visible: boolean): void => {
       unit.setVisible(visible);
-      this.drawCanvas();  
+      this.render();  
     });
     this.itemController.setOnObstacleDeleteCB((obstacle: Obstacle): void => {
       const index = this.obstacles.indexOf(obstacle);
       if (index >= 0) {
         this.obstacles.splice(index, 1);
       }
-      this.drawCanvas();
+      this.render();
     });
     this.itemController.setOnObstacleVisibleCB((obstacle: Obstacle, visible: boolean): void => {
       obstacle.setVisible(visible);
-      this.drawCanvas();  
+      this.render();  
     });
     this.itemController.setOnOpeningDeleteCB((opening: Opening): void => {
       const index = this.openings.indexOf(opening);
       if (index >= 0) {
         this.openings.splice(index, 1);
       }
-      this.drawCanvas();
+      this.render();
     });
     this.itemController.setOnObstacleVisibleCB((opening: Opening, visible: boolean): void => {
       opening.setVisible(visible);
-      this.drawCanvas();  
+      this.render();  
     });
 
     this.canvas.width = this.canvas.clientWidth;
@@ -152,7 +157,7 @@ export class MapController {
           }
         }
       }
-      this.drawCanvas();
+      this.render();
     });
     this.canvas.addEventListener('mousemove', (e) => {
       const operationType = this.operationController.getCurrentOperationType();
@@ -180,7 +185,7 @@ export class MapController {
           }
         }
       }
-      this.drawCanvas();
+      this.render();
     });
     this.canvas.addEventListener('mouseup', (e) => {
       const operationType = this.operationController.getCurrentOperationType();
@@ -189,7 +194,7 @@ export class MapController {
       if (operationType === 'hand') {
         this.dragginPoint = null;
       }
-      this.drawCanvas();
+      this.render();
     });
   
     this.deleteBtn.addEventListener('click', () => {
@@ -248,11 +253,9 @@ export class MapController {
       console.log(map);
       this.toastController.showToast('success', '地图数据导出', '成功导出地图数据！');
     });
-  
-    this.readMap();
   }
 
-  public readMap(): void {
+  public readMap(dismissItem: boolean = false): void {
     const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
     const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
     const map = projectMetaData.map;
@@ -263,7 +266,7 @@ export class MapController {
       unit.setCoordinates(this.pcScene, data.geometry.coordinates);
       unit.setClosed();
       this.units.push(unit);
-      this.itemController.addUnitItem(unit);
+      (!dismissItem) && this.itemController.addUnitItem(unit);
     }
     for (const data of map.obstacles) {
       const obstacle = new Obstacle();
@@ -271,24 +274,24 @@ export class MapController {
       obstacle.setCoordinates(this.pcScene, data.geometry.coordinates);
       obstacle.setClosed();
       this.obstacles.push(obstacle);
-      this.itemController.addObstacleItem(obstacle);
+      (!dismissItem) && this.itemController.addObstacleItem(obstacle);
     }
     for (const data of map.openings) {
       const opening = new Opening();
       opening.setName(data.alt_name);
       opening.setCoordinates(this.pcScene, data.geometry.coordinates);
       this.openings.push(opening);
-      this.itemController.addOpeningItem(opening);
+      (!dismissItem) && this.itemController.addOpeningItem(opening);
     }
-    this.drawCanvas();
+    this.render();
   }
 
-  public clearCanvas(): void {
+  public unrender(): void {
     this.canvas.width = this.canvas.clientWidth;
   }
 
-  public drawCanvas(): void {
-    this.clearCanvas();
+  public render(): void {
+    this.unrender();
     for (const unit of this.units) {
       unit.draw(this.context);
     }
@@ -327,5 +330,19 @@ export class MapController {
       if (point) { return point; }
     }
     return null;
+  }
+
+  public calcPointCost(x: number, y: number): number {
+    for (const unit of this.units) {
+      if (unit.checkPointInside(x, y)) {
+        return unit.getCost();
+      }
+    }
+    for (const obstacle of this.obstacles) {
+      if (obstacle.checkPointInside(x, y)) {
+        return Infinity;
+      }
+    }
+    return Infinity;
   }
 }

@@ -65,6 +65,7 @@ export class ItemController {
       <option selected>可通行</option>
       <option>不可通行</option>
     </select>
+    <input type="number" class="form-control property-item-line cost-input" placeholder="Cost" value="1">
     <button type="button" class="btn btn-primary btn-sm visible-btn">
       <i class="iconfont">&#xe6cc;</i>
     </button>
@@ -191,10 +192,12 @@ export class ItemController {
     const nameInput = unitItem.getElementsByClassName('name-input')[0] as HTMLInputElement;
     const categorySelect = unitItem.getElementsByClassName('category-select')[0] as HTMLSelectElement;
     const accessSelect = unitItem.getElementsByClassName('access-select')[0] as HTMLSelectElement;
+    const costInput = unitItem.getElementsByClassName('cost-input')[0] as HTMLInputElement;
     return {
       alt_name: nameInput.value,
       category: categorySelect.value,
-      access: accessSelect.value, 
+      access: accessSelect.value,
+      cost: costInput.value, 
     };
   }
 
