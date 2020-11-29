@@ -12,6 +12,8 @@ interface GridCell {
   cost: number;
 }
 
+const GridLineColor = 'rgba(255, 251, 38, 0.5)';
+
 export class GridController {
 
   private pcScene: PCScene;
@@ -32,7 +34,10 @@ export class GridController {
     this.pcScene = scene;
   }
 
-  public init(): void {}
+  public init(): void {
+    this.canvas.width = this.canvas.clientWidth;
+    this.canvas.height = this.canvas.clientHeight;
+  }
 
   public generateGrid(mapController: MapController): void {
     this.grid = [];
@@ -40,29 +45,64 @@ export class GridController {
     const { width, height } = this.pcScene.getCanvasSize();
     this.cellWidth = width / (totalX / this.cellSize);
     this.cellHeight = height / (totalY / this.cellSize);
-    this.xCellCount = Math.floor(totalX / this.cellSize);
-    this.yCellCount = Math.floor(totalY / this.cellSize);
+    this.xCellCount = Math.ceil(totalX / this.cellSize);
+    this.yCellCount = Math.ceil(totalY / this.cellSize);
     for (let j = 0; j < this.yCellCount; j++) {
       this.grid[j] = [];
       for (let i = 0; i < this.xCellCount; i++) {
-        const x = minX + (i + 0.5) * this.cellSize;
-        const y = minY + (j + 0.5) * this.cellSize;
+        const canvasX = (i + 0.5) * this.cellWidth;
+        const canvasY = height - (j + 0.5) * this.cellHeight;
         const cell: GridCell = {
           xIndex: i,
           yIndex: j,
-          x,
-          y,
+          x: minX + (i + 0.5) * this.cellSize,
+          y: minY + (j + 0.5) * this.cellSize,
           canvasX: (i + 0.5) * this.cellWidth,
           canvasY: height - (j + 0.5) * this.cellHeight,
-          cost: mapController.calcPointCost(x, y),
+          cost: mapController.calcPointCost(canvasX, canvasY),
         };
         this.grid[j][i] = cell;
       }
     }
+    console.log(this.grid);
   }
 
-  public render(): void {}
+  public render(): void {
+    this.unrender();
+    this.context.fillStyle = GridLineColor;
+    this.context.strokeStyle = GridLineColor;
+    for (let i = 0; i < this.xCellCount + 1; i++) {
+      const x = i * this.cellWidth;
+      this.context.beginPath();
+      this.context.moveTo(x, 0);
+      this.context.lineTo(x, this.canvas.height);
+      this.context.stroke();
+    }
+    for (let i = 0; i < this.yCellCount + 1; i++) {
+      const y = this.canvas.height - i * this.cellHeight;
+      this.context.beginPath();
+      this.context.moveTo(0, y);
+      this.context.lineTo(this.canvas.width, y);
+      this.context.stroke();
+    }
+    // cost
+    for (let j = 0; j < this.grid.length; j++) {
+      for (let i = 0; i < this.grid[j].length; i++) {
+        const cell = this.grid[j][i];
+        if (cell.cost < Infinity) {
+          this.context.fillRect(
+            cell.canvasX - this.cellWidth / 2,
+            cell.canvasY - this.cellHeight / 2,
+            this.cellWidth,
+            this.cellHeight
+          );
+        }
+      }
+    }
+  }
   
-  public unrender(): void {}
+  public unrender(): void {
+    this.canvas.width = this.canvas.clientWidth;
+  }
 }
 

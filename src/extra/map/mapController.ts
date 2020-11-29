@@ -97,7 +97,7 @@ export class MapController {
       if (operationType === 'unit') {
         if (!this.drawingItem) {
           this.drawingItem = new Unit();
-          this.units.push(this.drawingItem);
+          this.units.push(this.drawingItem as Unit);
           this.drawingItem.addDrawingPoint(x, y);
         } else {
           const hoveredPoint = this.checkExistedPoints(x, y);
@@ -333,14 +333,14 @@ export class MapController {
   }
 
   public calcPointCost(x: number, y: number): number {
-    for (const unit of this.units) {
-      if (unit.checkPointInside(x, y)) {
-        return unit.getCost();
-      }
-    }
     for (const obstacle of this.obstacles) {
       if (obstacle.checkPointInside(x, y)) {
         return Infinity;
+      }
+    }
+    for (const unit of this.units) {
+      if (unit.checkPointInside(x, y)) {
+        return unit.getCost();
       }
     }
     return Infinity;

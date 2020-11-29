@@ -57,12 +57,42 @@
       </div>
 
       <div id="tool-menu">
+        <div class="menu-panel case-panel">
+          <h5 class="title">用例创建</h5>
+          <div class="divider"></div>
+          <button type="button" class="btn btn-light btn-block" id="basicCaseBtn">
+            <i class="iconfont">&#xe639;</i>
+            基础用例
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="pathCaseBtn">
+            <i class="iconfont">&#xe639;</i>
+            路径点用例
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="coverCaseBtn">
+            <i class="iconfont">&#xe639;</i>
+            区域覆盖用例
+          </button>
+          <!-- <div class="divider"></div>
+          <button type="button" class="btn btn-secondary btn-block" id="hand">
+            <i class="iconfont-map">&#xe662;</i>
+            手型工具
+          </button> -->
+        </div>
+
         <div class="menu-panel display-panel">
           <h5 class="title">显示</h5>
-          <div class="divider"></div> 
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <div class="divider"></div>
+          <button type="button" class="btn btn-secondary btn-block" id="showGridBtn">
             <i class="iconfont">&#xe622;</i>
-            显示坐标系
+            显示点云
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="showGridBtn">
+            <i class="iconfont">&#xe622;</i>
+            显示网格
+          </button>
+          <button type="button" class="btn btn-secondary btn-block" id="showGridBtn">
+            <i class="iconfont">&#xe622;</i>
+            显示可通行网格
           </button>
         </div>
 
@@ -70,43 +100,52 @@
           <h5 class="title">操作</h5>
           <div class="divider"></div>
           <button type="button" class="btn btn-secondary btn-block" id="">
-            <i class="iconfont">&#xe61a;</i>
+            <i class="iconfont-map">&#xe787;</i>
             撤销
           </button>
           <button type="button" class="btn btn-secondary btn-block" id="">
-            <i class="iconfont">&#xe613;</i>
+            <i class="iconfont-map">&#xe788;</i>
             重做
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
-            <i class="iconfont">&#xe62c;</i>
-            删除点云
+          <button type="button" class="btn btn-secondary btn-block" id="delete-point">
+            <i class="iconfont-map">&#xe7c3;</i>
+            删除绘制点
           </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
-            <i class="iconfont">&#xe6a3;</i>
-            隐藏点云
-          </button>
-          <button type="button" class="btn btn-secondary btn-block" id="">
+          <!-- <button type="button" class="btn btn-secondary btn-block" id="basicCaseBtn">
             <i class="iconfont">&#xe639;</i>
-            语义标注
+            完成绘制
+          </button> -->
+          <button type="button" class="btn btn-secondary btn-block" id="export-map">
+            <i class="iconfont-map">&#xe791;</i>
+            导出用例
           </button>
         </div>
-          
+
       </div>
 
       <div id="canvas-container">
         <canvas id="canvas"></canvas>
-        <canvas id="map-canvas"></canvas>
         <canvas id="grid-canvas"></canvas>
+        <canvas id="map-canvas"></canvas>
         <canvas id="case-canvas"></canvas>
       </div>
 
       <div id="property-menu">        
-        <div class="menu-panel semantic-panel">
-          <h5 class="title">点云语义</h5>
+        <div class="menu-panel" id="basicCasePanel">
+          <h5 class="title">基础用例</h5>
           <div class="divider"></div>
           
         </div>
-
+        <div class="menu-panel" id="pathCasePanel">
+          <h5 class="title">路径用例</h5>
+          <div class="divider"></div>
+          
+        </div>
+        <div class="menu-panel" id="coverCasePanel">
+          <h5 class="title">覆盖用例</h5>
+          <div class="divider"></div>
+          
+        </div>
       </div>
 
     </div>

@@ -35,4 +35,5 @@ declare global {
   console.log(renderer);
   const caseController = new CaseController(pcScene, projectController);
   caseController.init();
+  caseController.initEvents();
 })();

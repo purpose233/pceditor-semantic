@@ -7,8 +7,24 @@
   url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.ttf') format('truetype'),
   url('http://at.alicdn.com/t/font_2192802_ixqizc3sjk.svg#iconfont') format('svg');
 }
+@font-face {
+  font-family: 'iconfont-map';  /* project id 959531 */
+  src: url('http://at.alicdn.com/t/font_959531_hqpep923wqn.eot');
+  src: url('http://at.alicdn.com/t/font_959531_hqpep923wqn.eot?#iefix') format('embedded-opentype'),
+  url('http://at.alicdn.com/t/font_959531_hqpep923wqn.woff2') format('woff2'),
+  url('http://at.alicdn.com/t/font_959531_hqpep923wqn.woff') format('woff'),
+  url('http://at.alicdn.com/t/font_959531_hqpep923wqn.ttf') format('truetype'),
+  url('http://at.alicdn.com/t/font_959531_hqpep923wqn.svg#iconfont') format('svg');
+}
 .iconfont{
   font-family:"iconfont" !important;
+  font-size:16px;font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.iconfont-map{
+  font-family:"iconfont-map" !important;
   font-size:16px;font-style:normal;
   -webkit-font-smoothing: antialiased;
   -webkit-text-stroke-width: 0.2px;
@@ -100,7 +116,7 @@ body, html {
 }
 
 #container { 
-  height: 100%;
+  height: calc(100% - 56px);
   width: 100%;
   display: flex;
   min-width: 800px;

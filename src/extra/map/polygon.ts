@@ -136,9 +136,10 @@ export class Polygon {
     let vAB = position1.clone().sub(position0);
     let vAP = p.clone().sub(position0);
     const flag = Math.sign(vAB.cross(vAP));
-    for (let i = 1; i < this.points.length - 1; i++) {
-      position0 = this.points[i].getPosition();
-      position1 = this.points[i + 1].getPosition();
+    const testPoints = [...this.points, this.points[0]];
+    for (let i = 1; i < testPoints.length - 1; i++) {
+      position0 = testPoints[i].getPosition();
+      position1 = testPoints[i + 1].getPosition();
       vAB = position1.clone().sub(position0);
       vAP = p.clone().sub(position0); 
       if (Math.sign(vAB.cross(vAP)) !== flag) { return false; }
