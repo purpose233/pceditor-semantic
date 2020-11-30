@@ -52,5 +52,6 @@ const projectDemo = {
   test_cases: [],
   map: null,
   model: null,
+  cases: null,
 }
 // JSON.stringify(projectDemo,null,2);

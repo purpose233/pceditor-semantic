@@ -21,6 +21,9 @@ export class CaseController {
   private gridController: GridController;
   private operationController: OperationController;
   private itemController: ItemController;
+
+  private exportBtn: HTMLElement = document.getElementById('export-map') as HTMLElement;
+  private deleteBtn: HTMLElement = document.getElementById('delete-point') as HTMLElement;
   
   private canvas: HTMLCanvasElement = document.getElementById('case-canvas') as HTMLCanvasElement;
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -154,6 +157,71 @@ export class CaseController {
         }
       } 
     }
+    this.deleteBtn.addEventListener('click', (e) => {
+      if (this.drawingItem) {
+        this.drawingItem.deleteRecentPoint();
+      }
+      this.render();
+    });
+    this.exportBtn.addEventListener('click', (e) => {
+      const cases: any[] = [];
+      for (const basicCase of this.basicCases) {
+        const coordinates = basicCase.getCoordinates(this.pcScene);
+        const data = {
+          id: basicCase.getID(),
+          type: 'basic',
+          ego_start: coordinates[0],
+          ego_end: coordinates[1],
+          path: basicCase.getPathCoordinates(this.pcScene),
+          
+          alt_name: basicCase.getName(),
+          timeout: 30,
+          collision: false,
+          order: true,
+        };
+        cases.push(data);
+      }
+      for (const pathCase of this.pathCases) {
+        const coordinates = pathCase.getCoordinates(this.pcScene);
+        const data = {
+          id: pathCase.getID(),
+          type: 'basic',
+          ego_start: coordinates.unshift(),
+          ego_end: coordinates.pop(),
+          path: coordinates,
+
+          alt_name: pathCase.getName(),
+          timeout: 30,
+          collision: false,
+          order: true,
+        };
+        cases.push(data);
+      }
+      for (const coverCase of this.coverCases) {
+        const coordinates = coverCase.getCoordinates(this.pcScene);
+        const data = {
+          id: coverCase.getID(),
+          type: 'cover',
+          ego_start: coordinates[0],
+          ego_end: coordinates[coordinates.length - 1],
+          area: coordinates,
+
+          coverage: 1,
+          out: false,
+          alt_name: coverCase.getName(),
+          timeout: 30,
+          collision: false,
+          order: true,
+        };
+        cases.push(data);
+      }
+      const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
+      const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
+      projectMetaData.cases = cases;
+      fs.writeFileSync(metaPath, JSON.stringify(projectMetaData, null, 2));
+      console.log(cases);
+      this.toastController.showToast('success', '用例数据导出', '成功导出用例数据！');
+    });
 
     this.itemController.setOnBasicDeleteCB((basic: BasicCase) => {
       const index = this.basicCases.indexOf(basic);

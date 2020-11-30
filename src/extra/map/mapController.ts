@@ -201,6 +201,7 @@ export class MapController {
       if (this.drawingItem) {
         this.drawingItem.deleteRecentPoint();
       }
+      this.render();
     });
     this.exportBtn.addEventListener('click', () => {
       const map: any = { units: [], openings: [], obstacles: [] };

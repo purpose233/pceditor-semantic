@@ -2,6 +2,7 @@ import { Vector2 } from "three";
 import { setOrtPointSize } from "../../common/constants";
 import { Point } from "../map/point";
 import { Polygon } from "../map/polygon";
+import { PCScene } from "../ortScene";
 import { GridCell } from './gridController';
 
 const CasePointColor = '#57b0ff';
@@ -163,4 +164,17 @@ export class BasicCase extends Polygon {
       context.stroke();
     }
   }  
+
+  public getPathCoordinates(scene: PCScene) {
+    const { minX, minY, totalX, totalY } = scene.getSceneBounding();
+    const { width, height } = scene.getCanvasSize();
+    const coordinates: number[][] = [];
+    for (const point of this.pathPoints) {
+      const position = point.getPosition();
+      const x = totalX / width * position.x + minX;
+      const y = totalY / height * position.y + minY;
+      coordinates.push([x, y]);
+    }
+    return coordinates;
+  }
 }
