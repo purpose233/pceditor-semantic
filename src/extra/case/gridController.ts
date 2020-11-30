@@ -2,7 +2,7 @@ import { ToastController } from "../../ui/toastController";
 import { MapController } from "../map/mapController";
 import { PCScene } from "../ortScene";
 
-interface GridCell {
+export interface GridCell {
   xIndex: number;
   yIndex: number;
   x: number;
@@ -33,6 +33,8 @@ export class GridController {
   constructor(scene: PCScene) {
     this.pcScene = scene;
   }
+
+  public getGrid(): GridCell[][] { return this.grid; }
 
   public init(): void {
     this.canvas.width = this.canvas.clientWidth;
@@ -65,6 +67,12 @@ export class GridController {
       }
     }
     console.log(this.grid);
+  }
+
+  public getCellByPosition(x: number, y: number): GridCell {
+    const xIndex = Math.floor(x / this.cellWidth);
+    const yIndex = Math.floor((this.canvas.height - y) / this.cellHeight);
+    return this.grid[yIndex][xIndex];
   }
 
   public render(): void {

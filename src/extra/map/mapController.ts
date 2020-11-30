@@ -265,6 +265,7 @@ export class MapController {
       unit.setName(data.alt_name);
       unit.setCoordinates(this.pcScene, data.geometry.coordinates);
       unit.setClosed();
+      unit.setCost(Number.parseFloat(data.cost));
       this.units.push(unit);
       (!dismissItem) && this.itemController.addUnitItem(unit);
     }

@@ -182,6 +182,7 @@ body, html {
   height: 100%;
   background: #32363c;
   padding: 20px;
+  overflow-y: auto;
 }
 #property-menu .menu-panel {
   margin-bottom: 20px;

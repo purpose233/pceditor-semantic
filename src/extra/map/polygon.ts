@@ -17,6 +17,7 @@ export class Polygon {
   public setName(name: string): void { this.altName = name; }
 
   public getID(): number { return this.id; }
+  public getPoints(): Point[] { return this.points; }
 
   public draw(context: CanvasRenderingContext2D): void {}
 

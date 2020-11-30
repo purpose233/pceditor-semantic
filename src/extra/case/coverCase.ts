@@ -2,9 +2,10 @@ import { Polygon } from "../map/polygon";
 
 const CasePointColor = '#57b0ff';
 const CaseLineColor = '#57b0ff';
+const CaseFillColor = 'rgba(86, 176, 255, 0.5)';
 const CasePointSize = 5;
 
-export class PathCase extends Polygon {
+export class CoverCase extends Polygon {
 
   public draw(context: CanvasRenderingContext2D, ): void {
     if (!this.visible) return;
@@ -28,6 +29,19 @@ export class PathCase extends Polygon {
         context.lineTo(x, y);
         context.stroke();
       }
+    }
+    if (this.isClosed) {
+      context.fillStyle = CaseFillColor;
+      context.beginPath();
+      const x = this.points[0].getPosition().x;
+      const y = this.points[0].getPosition().y;
+      context.moveTo(x, y);
+      for (const point of this.points) {
+        const x = point.getPosition().x;
+        const y = point.getPosition().y;
+        context.lineTo(x, y);
+      }
+      context.fill();
     }
   }  
 }
