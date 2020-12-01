@@ -24,12 +24,11 @@ export function isPointInGeometry(point: [number, number], geometry: [number, nu
   const flag = Math.sign(vAB.cross(vAP));
   const testPoints = [ ...geometry, point ];
   for (let i = 1; i < testPoints.length - 1; i++) {
-    p0 = new Vector2(geometry[0][0], geometry[0][1]);
-    p1 = new Vector2(geometry[1][0], geometry[1][1]);
+    p0 = new Vector2(testPoints[i][0], testPoints[i][1]);
+    p1 = new Vector2(testPoints[i + 1][0], testPoints[i + 1][1]);
     vAB = p1.clone().sub(p0);
     vAP = p.clone().sub(p0);
-    const flag = Math.sign(vAB.cross(vAP));
-    if (Math.sign(vAB.cross(vAP)) !== flag) { return false; }
+    if (Math.sign(vAB.cross(vAP)) !== flag) { return true; }
   }
-  return true;
+  return false;
 }

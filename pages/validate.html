@@ -86,8 +86,8 @@
                   <input type="text" readonly class="form-control-plaintext" id="is-generated" value="待构建">
                 </div>
               </div>
-              <button type="button" class="btn btn-primary btn" id="validateBtn">
-                <i class="iconfont">&#xe62b;</i>
+              <button type="button" class="btn btn-primary btn" id="validateBtn" data-toggle="modal" data-target="#validateModal">
+                <i class="iconfont">&#xe624;</i>
                 开始校验
               </button>
             </div>
@@ -95,6 +95,22 @@
         </div>
       </div>
 
+    </div>
+
+    <div class="modal fade" id="validateModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">场景校验</h5>
+          </div>
+          <div class="modal-body" style="text-align: center;" id="validateMsg">
+            用例校验中...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" id="confirmBtn" data-dismiss="modal" disabled>确定</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="toast-container"></div>

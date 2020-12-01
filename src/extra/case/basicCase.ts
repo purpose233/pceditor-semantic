@@ -1,5 +1,4 @@
 import { Vector2 } from "three";
-import { setOrtPointSize } from "../../common/constants";
 import { Point } from "../map/point";
 import { Polygon } from "../map/polygon";
 import { PCScene } from "../ortScene";

@@ -24,7 +24,7 @@ export class CaseController {
 
   private exportBtn: HTMLElement = document.getElementById('export-map') as HTMLElement;
   private deleteBtn: HTMLElement = document.getElementById('delete-point') as HTMLElement;
-  private pcCanvas: HTMLElement = document.getElementById('canvas');
+  private pcCanvas: HTMLElement = document.getElementById('canvas') as HTMLElement;
 
   private canvas: HTMLCanvasElement = document.getElementById('case-canvas') as HTMLCanvasElement;
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;

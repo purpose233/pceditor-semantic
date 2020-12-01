@@ -1,7 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 import { ProjectController } from "../projectController";
-import validate from './validator';
+import { ValidateResult, Validator } from './validator';
+
+function sleep(delay: number) {
+  return new Promise(reslove => {
+    setTimeout(reslove, delay)
+  })
+}
 
 export class ValidateController {
 
@@ -12,6 +18,10 @@ export class ValidateController {
   private isCasedInput: HTMLInputElement = document.getElementById('is-cased') as HTMLInputElement;
   private isGeneratedInput: HTMLInputElement = document.getElementById('is-generated') as HTMLInputElement;
   private validateBtn: HTMLElement = document.getElementById('validateBtn') as HTMLElement;
+  private validateConfirmBtn: HTMLElement = document.getElementById('confirmBtn') as HTMLElement;
+  private validateMsg: HTMLElement = document.getElementById('validateMsg') as HTMLElement;
+
+  private validator: Validator = new Validator();
 
   constructor(projectController: ProjectController) {
     this.projectController = projectController;
@@ -24,7 +34,7 @@ export class ValidateController {
     if (projectMetaData.map) {
       this.isMappedInput.value = '已标注';
     }
-    if (projectMetaData.cases) {
+    if (projectMetaData.test_cases) {
       this.isCasedInput.value = '已生成';
     }
     if (projectMetaData.model) {
@@ -36,12 +46,29 @@ export class ValidateController {
     });
   }
 
-  public validate(): void {
+  private prepareValidate(): void {
+    this.validateConfirmBtn.setAttribute('disabled', "true");
+    // this.validateMsg.innerHTML = ValidateMsg[0];
+  }
+
+  public async validate(): Promise<void> {
     const specPath = this.projectController.getActiveSpecPath();
     const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
     const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
     console.log(projectMetaData);
-    console.log(validate(projectMetaData));
+    let currentResult: ValidateResult;
+    do {
+      const rule = this.validator.getCurrentRule();
+      this.validateMsg.innerHTML = rule.validateInfo + '...';
+      currentResult = this.validator.runRule(projectMetaData);
+      await sleep(150);
+      if (currentResult.type !== 'success') { break; }
+    } while (this.validator.currentRuleIndex !== 0);
+    if (currentResult.type !== 'success') {
+      this.validateMsg.innerHTML = `校验失败：${currentResult.msg}`;
+    } else {
+      this.validateMsg.innerHTML = `校验成功！`;
+    }
+    this.validateConfirmBtn.removeAttribute('disabled');
   }
 }
-
