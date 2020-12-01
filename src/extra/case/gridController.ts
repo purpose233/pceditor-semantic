@@ -75,35 +75,39 @@ export class GridController {
     return this.grid[yIndex][xIndex];
   }
 
-  public render(): void {
+  public render(showGrid: boolean = true, showArea: boolean = true): void {
     this.unrender();
     this.context.fillStyle = GridLineColor;
     this.context.strokeStyle = GridLineColor;
-    for (let i = 0; i < this.xCellCount + 1; i++) {
-      const x = i * this.cellWidth;
-      this.context.beginPath();
-      this.context.moveTo(x, 0);
-      this.context.lineTo(x, this.canvas.height);
-      this.context.stroke();
+    if (showGrid) {
+      for (let i = 0; i < this.xCellCount + 1; i++) {
+        const x = i * this.cellWidth;
+        this.context.beginPath();
+        this.context.moveTo(x, 0);
+        this.context.lineTo(x, this.canvas.height);
+        this.context.stroke();
+      }
+      for (let i = 0; i < this.yCellCount + 1; i++) {
+        const y = this.canvas.height - i * this.cellHeight;
+        this.context.beginPath();
+        this.context.moveTo(0, y);
+        this.context.lineTo(this.canvas.width, y);
+        this.context.stroke();
+      }
     }
-    for (let i = 0; i < this.yCellCount + 1; i++) {
-      const y = this.canvas.height - i * this.cellHeight;
-      this.context.beginPath();
-      this.context.moveTo(0, y);
-      this.context.lineTo(this.canvas.width, y);
-      this.context.stroke();
-    }
-    // cost
-    for (let j = 0; j < this.grid.length; j++) {
-      for (let i = 0; i < this.grid[j].length; i++) {
-        const cell = this.grid[j][i];
-        if (cell.cost < Infinity) {
-          this.context.fillRect(
-            cell.canvasX - this.cellWidth / 2,
-            cell.canvasY - this.cellHeight / 2,
-            this.cellWidth,
-            this.cellHeight
-          );
+    if (showArea) {
+      // cost
+      for (let j = 0; j < this.grid.length; j++) {
+        for (let i = 0; i < this.grid[j].length; i++) {
+          const cell = this.grid[j][i];
+          if (cell.cost < Infinity) {
+            this.context.fillRect(
+              cell.canvasX - this.cellWidth / 2,
+              cell.canvasY - this.cellHeight / 2,
+              this.cellWidth,
+              this.cellHeight
+            );
+          }
         }
       }
     }

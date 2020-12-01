@@ -24,7 +24,8 @@ export class CaseController {
 
   private exportBtn: HTMLElement = document.getElementById('export-map') as HTMLElement;
   private deleteBtn: HTMLElement = document.getElementById('delete-point') as HTMLElement;
-  
+  private pcCanvas: HTMLElement = document.getElementById('canvas');
+
   private canvas: HTMLCanvasElement = document.getElementById('case-canvas') as HTMLCanvasElement;
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
   private toastController: ToastController = new ToastController();
@@ -217,7 +218,7 @@ export class CaseController {
       }
       const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
       const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
-      projectMetaData.cases = cases;
+      projectMetaData.test_cases = cases;
       fs.writeFileSync(metaPath, JSON.stringify(projectMetaData, null, 2));
       console.log(cases);
       this.toastController.showToast('success', '用例数据导出', '成功导出用例数据！');
@@ -255,6 +256,18 @@ export class CaseController {
     this.itemController.setOnCoverVisibleCB((cover: CoverCase, visible: boolean): void => {
       cover.setVisible(visible);
       this.render();  
+    });
+  
+    this.operationController.setOnPCVisibleCB((visible: boolean) => {
+      this.pcCanvas.style.visibility = visible ? '' : 'hidden';
+    });
+    this.operationController.setOnGridVisibleCB((visible: boolean) => {
+      const areaVisible = document.getElementById('showAreaBtn')?.classList.contains('btn-light');
+      this.gridController.render(visible, areaVisible);
+    });
+    this.operationController.setOnAreaVisibleCB((visible: boolean) => {
+      const gridVisible = document.getElementById('showGridBtn')?.classList.contains('btn-light');
+      this.gridController.render(gridVisible, visible);
     });
   }
 

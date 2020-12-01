@@ -2,6 +2,9 @@ import { MNOTree } from '../tree/mnoTree';
 import { ConverterNode } from './converterNode';
 import { BoundingBox } from '../common/bbox';
 
+const PointThreshold = 2000000;
+const RecentNodeThreshold = 10;
+
 export class ConverterTree extends MNOTree {
 
   constructor(refPath: string, bbox: BoundingBox) {
@@ -9,6 +12,7 @@ export class ConverterTree extends MNOTree {
     (this.rootNode as ConverterNode).setRefTree(this);
   }
 
+  private recentNodes: ConverterNode[] = [];
   private loadedCount: number = 0;
 
   protected static createRootNode(bbox: BoundingBox): ConverterNode {
