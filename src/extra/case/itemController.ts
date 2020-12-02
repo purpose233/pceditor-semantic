@@ -10,7 +10,8 @@ export class ItemController {
   private basicItemMap: any = {};
   private basicDeleteCB: (item: BasicCase) => void = () => {};
   private basicVisibleCB: (item: BasicCase, visible: boolean) => void = () => {};
-  
+  private basicPathCB: (item: BasicCase, pathType: 'A*' | 'Dijkstra' | 'null') => void = () => {};
+
   private pathItemMap: any = {};
   private pathDeleteCB: (item: PathCase) => void = () => {};
   private pathVisibleCB: (item: PathCase, visible: boolean) => void = () => {};
@@ -26,6 +27,9 @@ export class ItemController {
   }
   public setOnBasicVisibleCB(cb: (item: BasicCase, visible: boolean) => void): void {
     this.basicVisibleCB = cb;
+  }
+  public setOnBasicPathCB(cb: (item: BasicCase, pathType: 'A*' | 'Dijkstra' | 'null') => void): void {
+    this.basicPathCB = cb;
   }
   public setOnPathDeleteCB(cb: (item: PathCase) => void): void {
     this.pathDeleteCB = cb;
@@ -69,6 +73,7 @@ export class ItemController {
     this.basicCasePanel.appendChild(item);
     const visibleBtn = (item as HTMLElement).getElementsByClassName('visible-btn')[0] as HTMLElement;
     const deleteBtn = (item as HTMLElement).getElementsByClassName('delete-btn')[0] as HTMLElement;
+    const pathSelect = (item as HTMLSelectElement).getElementsByClassName('path-select')[0] as HTMLSelectElement;
     let visible = true;
     visibleBtn.addEventListener('click', () => {
       visible = !visible;
@@ -84,6 +89,11 @@ export class ItemController {
     deleteBtn.addEventListener('click', () => {
       this.basicDeleteCB(basicCase);
       this.basicCasePanel.removeChild(item);
+    });
+    let pathType: 'A*' | 'Dijkstra' | 'null' = 'A*';
+    pathSelect.addEventListener('change', () => {
+      pathType = pathSelect.value as any;
+      this.basicPathCB(basicCase, pathType);
     });
     this.basicItemMap[basicCase.getID()] = item;
   }
