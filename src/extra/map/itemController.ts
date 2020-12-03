@@ -242,7 +242,7 @@ export class ItemController {
   </div>
 </div>
     `;
-    const item = div.childNodes[1];
+    const item = div.childNodes[1] as HTMLElement;
     this.relationPanel.appendChild(item);
     const deleteBtn = (item as HTMLElement).getElementsByClassName('delete-btn')[0] as HTMLElement;
     deleteBtn.addEventListener('click', () => {
@@ -251,6 +251,17 @@ export class ItemController {
       this.relationDeleteCB(relation);
     });
     this.relationItemMap[relation.getID()] = item;
+
+    // const unit0Select = item.getElementsByClassName('relation-unit0-select')[0] as HTMLSelectElement;
+    // relation.getUnit0() && (unit0Select.value = relation.getUnit0().getID());
+    // const unit1Select = item.getElementsByClassName('relation-unit1-select')[0] as HTMLSelectElement;
+    // relation.getUnit1() && (unit1Select.value = relation.getUnit1().getID());
+    // const openingSelect = item.getElementsByClassName('relation-opening-select')[0] as HTMLSelectElement;
+    // relation.getOpening() && (openingSelect.value = relation.getOpening().getID());
+    // const oriSelect = item.getElementsByClassName('relation-ori-select')[0] as HTMLSelectElement;
+    // oriSelect.value = relation.getDirection();
+    // const costInput = item.getElementsByClassName('cost-input')[0] as HTMLInputElement;
+    // costInput.value = relation.getCost() + '';
   }
 
   public getUnitInfo(unit: Unit): any {
@@ -263,7 +274,7 @@ export class ItemController {
       alt_name: nameInput.value,
       category: categorySelect.value,
       access: accessSelect.value,
-      cost: costInput.value, 
+      cost: Number.parseFloat(costInput.value), 
     };
   }
 
@@ -291,13 +302,15 @@ export class ItemController {
     const relationItem = this.relationItemMap[relation.getID()];
     const unit0Select = relationItem.getElementsByClassName('relation-unit0-select')[0] as HTMLSelectElement;
     const unit1Select = relationItem.getElementsByClassName('relation-unit1-select')[0] as HTMLSelectElement;
+    const openingSelect = relationItem.getElementsByClassName('relation-opening-select')[0] as HTMLSelectElement;
     const oriSelect = relationItem.getElementsByClassName('relation-ori-select')[0] as HTMLSelectElement;
     const costInput = relationItem.getElementsByClassName('cost-input')[0] as HTMLInputElement;
     return {
       unit0: unit0Select.value,
       unit1: unit1Select.value,
+      opening: openingSelect.value,
       direction: oriSelect.value,
-      cost: costInput.value,
+      cost: Number.parseFloat(costInput.value),
     }
   }
 }

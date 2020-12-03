@@ -40,6 +40,11 @@ export class MapController {
     this.projectController = projectController;
   }
 
+  public getUnits(): Unit[] { return this.units; }
+  public getObstacles(): Obstacle[] { return this.obstacles; }
+  public getOpenings(): Opening[] { return this.openings; }
+  public getRelations(): Relation[] { return this.relations; }
+
   public init(): void {
     this.canvas.width = this.canvas.clientWidth;
     this.canvas.height = this.canvas.clientHeight;
@@ -153,7 +158,7 @@ export class MapController {
       if (operationType === 'opening') {
         if (!this.drawingItem) {
           this.drawingItem = new Opening();
-          this.openings.push(this.drawingItem);
+          this.openings.push(this.drawingItem as Opening);
           this.drawingItem.addDrawingPoint(x, y);
         } else {
           if (this.drawingItem.getPointCount() === 1) {
@@ -287,7 +292,7 @@ export class MapController {
     const map = projectMetaData.map;
     console.log(projectMetaData);
     for (const data of map.units) {
-      const unit = new Unit();
+      const unit = new Unit(data.id);
       unit.setName(data.alt_name);
       unit.setCoordinates(this.pcScene, data.geometry.coordinates);
       unit.setClosed();
@@ -296,7 +301,7 @@ export class MapController {
       (!dismissItem) && this.itemController.addUnitItem(unit);
     }
     for (const data of map.obstacles) {
-      const obstacle = new Obstacle();
+      const obstacle = new Obstacle(data.id);
       obstacle.setName(data.alt_name);
       obstacle.setCoordinates(this.pcScene, data.geometry.coordinates);
       obstacle.setClosed();
@@ -304,11 +309,25 @@ export class MapController {
       (!dismissItem) && this.itemController.addObstacleItem(obstacle);
     }
     for (const data of map.openings) {
-      const opening = new Opening();
+      const opening = new Opening(data.id);
       opening.setName(data.alt_name);
       opening.setCoordinates(this.pcScene, data.geometry.coordinates);
       this.openings.push(opening);
       (!dismissItem) && this.itemController.addOpeningItem(opening);
+    }
+    for (const data of map.relations) {
+      const relation = new Relation(data.id);
+      relation.setUnit0(this.findUnitByID(data.unit0) as Unit);
+      relation.setUnit1(this.findUnitByID(data.unit1) as Unit);
+      relation.setOpening(this.findOpeningByID(data.opening) as Opening);
+      relation.setDirection(data.direction);
+      relation.setCost(data.cost);
+      this.relations.push(relation);
+      if (!dismissItem) {
+        this.itemController.addRelationItem(relation);
+        this.itemController.updateUnitSelect(this.units);
+        this.itemController.updateOpeningSelect(this.openings);
+      }      
     }
     (!dismissItem) && this.itemController.updateUnitSelect(this.units);
     this.render();
@@ -360,6 +379,20 @@ export class MapController {
     return null;
   }
 
+  public getPointObject(x: number, y: number) {
+    for (const obstacle of this.obstacles) {
+      if (obstacle.checkPointInside(x, y)) {
+        return obstacle;
+      }
+    }
+    for (const unit of this.units) {
+      if (unit.checkPointInside(x, y)) {
+        return unit;
+      }
+    }
+    return null;
+  }
+
   public calcPointCost(x: number, y: number): number {
     for (const obstacle of this.obstacles) {
       if (obstacle.checkPointInside(x, y)) {
@@ -372,5 +405,15 @@ export class MapController {
       }
     }
     return Infinity;
+  }
+
+  public findUnitByID(id: string): Unit | undefined {
+    return this.units.find((unit) => unit.getID() === id);
+  }
+  public findObstacleByID(id: string): Obstacle | undefined {
+    return this.obstacles.find((obstacle) => obstacle.getID() === id);
+  }
+  public findOpeningByID(id: string): Opening | undefined {
+    return this.openings.find((opening) => opening.getID() === id);
   }
 }

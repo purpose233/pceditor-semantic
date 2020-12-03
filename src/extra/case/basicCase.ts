@@ -145,26 +145,47 @@ export class BasicCase extends Polygon {
       const curPath = curCache.path;
       curCache.isVisited = true;
       list.splice(list.indexOf(curCache), 1);
+      const testCells: GridCell[] = [];
       for (let j = heightIndex - 1; j <= heightIndex + 1; j++) {
         for (let i = widthIndex - 1; i <= widthIndex + 1; i++) {
-          const testCell = grid[j][i];
-          const testCache = cache[j][i];
           if (i === widthIndex && j === heightIndex) { continue; }
           if (j < 0 || j >= gridHeight || i < 0 || i >= gridWidth) { continue; }
-          if (!Number.isFinite(testCell.cost)) { continue; }
-          // const dist = Math.sqrt(Math.abs(j - heightIndex) + Math.abs(i - widthIndex)) / 2;
-          // const nextCost = grid[j][i].cost * dist / 2
-          //   + curCell.cost * dist / 2;
-          const g = fg(curCell, testCell, curCache, testCache);
-          const h = fh(curCell, testCell, curCache, testCache);
-          if (testCache.g + testCache.h > g + h) {
-            testCache.g = g;
-            testCache.h = h;
-            testCache.cost = g + h;
-            testCache.path = [...curPath, curCell];
-          }
+          if (!Number.isFinite(grid[j][i].cost)) { continue; }
+          testCells.push(grid[j][i]);
         }
       }
+      testCells.push(...curCell.additionalConnectedCells);
+      for (const testCell of testCells) {
+        const testCache = cache[testCell.yIndex][testCell.xIndex];
+        const g = fg(curCell, testCell, curCache, testCache);
+        const h = fh(curCell, testCell, curCache, testCache);
+        if (testCache.g + testCache.h > g + h) {
+          testCache.g = g;
+          testCache.h = h;
+          testCache.cost = g + h;
+          testCache.path = [...curPath, curCell];
+        }
+      }
+      // for (let j = heightIndex - 1; j <= heightIndex + 1; j++) {
+      //   for (let i = widthIndex - 1; i <= widthIndex + 1; i++) {
+      //     const testCell = grid[j][i];
+      //     const testCache = cache[j][i];
+      //     if (i === widthIndex && j === heightIndex) { continue; }
+      //     if (j < 0 || j >= gridHeight || i < 0 || i >= gridWidth) { continue; }
+      //     if (!Number.isFinite(testCell.cost)) { continue; }
+      //     // const dist = Math.sqrt(Math.abs(j - heightIndex) + Math.abs(i - widthIndex)) / 2;
+      //     // const nextCost = grid[j][i].cost * dist / 2
+      //     //   + curCell.cost * dist / 2;
+      //     const g = fg(curCell, testCell, curCache, testCache);
+      //     const h = fh(curCell, testCell, curCache, testCache);
+      //     if (testCache.g + testCache.h > g + h) {
+      //       testCache.g = g;
+      //       testCache.h = h;
+      //       testCache.cost = g + h;
+      //       testCache.path = [...curPath, curCell];
+      //     }
+      //   }
+      // }
       list.sort((a, b) => {
         return a.cost - b.cost;
       });

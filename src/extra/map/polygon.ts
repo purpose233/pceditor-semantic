@@ -5,12 +5,16 @@ import uuid from 'uuid/v4'
 
 export class Polygon {
 
-  protected id: string = uuid();
+  protected id: string;
   protected altName: string = '';
   protected points: Point[] = [];
   protected drawingPoint: Point | null = null;
   protected isClosed: boolean = false;
   protected visible: boolean = true;
+
+  constructor(id?: string) {
+    this.id = id ? id : uuid();
+  }
 
   public getName(): string { return this.altName; }
   public setName(name: string): void { this.altName = name; }

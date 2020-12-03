@@ -7,6 +7,12 @@ const OpeningPointSize = 5;
 
 export class Opening extends Polygon {
 
+  public getLength(): number {
+    const position0 = this.points[0].getPosition();
+    const position1 = this.points[1].getPosition();
+    return position0.distanceTo(position1);
+  }
+
   public draw(context: CanvasRenderingContext2D): void {
     if (!this.visible) return;
     const drawingPoints = [ ...this.points ];

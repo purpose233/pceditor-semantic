@@ -4,7 +4,7 @@ import { ToastController } from "../../ui/toastController";
 import { MapController } from '../map/mapController';
 import { PCScene } from "../ortScene";
 import { ProjectController } from "../projectController";
-import { GridController } from './gridController';
+import { GridCell, GridController } from './gridController';
 import { PathCase } from './pathCase';
 import { OperationController } from './operationController';
 import { ItemController } from './itemController';
@@ -79,7 +79,7 @@ export class CaseController {
             const endCell = this.gridController.getCellByPosition(
               points[1].getPosition().x, points[1].getPosition().y);
             // (this.drawingItem as BasicCase).generatePath('Dijkstra', this.gridController.getGrid(), beginCell, endCell);
-            (this.drawingItem as BasicCase).generatePath('A*', this.gridController.getGrid(), beginCell, endCell);
+            (this.drawingItem as BasicCase).generatePath('A*', this.gridController.getGrid(), beginCell as GridCell, endCell as GridCell);
             this.drawingItem = null;
           } else {
             this.drawingItem.confirmDrawingPoint();
@@ -241,7 +241,7 @@ export class CaseController {
         points[0].getPosition().x, points[0].getPosition().y);
       const endCell = this.gridController.getCellByPosition(
         points[1].getPosition().x, points[1].getPosition().y);
-      basic.generatePath(pathType, this.gridController.getGrid(), beginCell, endCell);
+      basic.generatePath(pathType, this.gridController.getGrid(), beginCell as GridCell, endCell as GridCell);
       this.render();
     });
     this.itemController.setOnPathDeleteCB((path: PathCase) => {
