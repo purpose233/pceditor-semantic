@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { Vector2 } from 'three';
 import { ToastController } from "../../ui/toastController";
 import { MapController } from '../map/mapController';
 import { PCScene } from "../ortScene";

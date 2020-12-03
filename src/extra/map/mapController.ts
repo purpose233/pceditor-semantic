@@ -11,6 +11,7 @@ import { Opening } from "./opening";
 import { ToastController } from '../../ui/toastController';
 import { PCScene } from '../ortScene';
 import { ProjectController } from '../projectController';
+import { Relation } from './relation';
 
 export class MapController {
 
@@ -21,6 +22,7 @@ export class MapController {
   private itemController: ItemController = new ItemController();
   private exportBtn: HTMLElement = document.getElementById('export-map') as HTMLElement;
   private deleteBtn: HTMLElement = document.getElementById('delete-point') as HTMLElement;
+  private createRelationBtn: HTMLElement = document.getElementById('new-relation') as HTMLElement;
 
   private canvas: HTMLCanvasElement = document.getElementById('map-canvas') as HTMLCanvasElement;
   private context: CanvasRenderingContext2D = this.canvas.getContext('2d') as CanvasRenderingContext2D;
@@ -29,6 +31,7 @@ export class MapController {
   private units: Unit[] = [];
   private obstacles: Obstacle[] = [];
   private openings: Opening[] = [];
+  private relations: Relation[] = [];
   private drawingItem: Polygon | null = null;
   private dragginPoint: Point | null = null;
 
@@ -52,7 +55,7 @@ export class MapController {
         this.units.splice(index, 1);
       }
       this.render();
-      this.itemController.updateParentModelSelect(this.units);
+      this.itemController.updateUnitSelect(this.units);
     });
     this.itemController.setOnUnitVisibleCB((unit: Unit, visible: boolean): void => {
       unit.setVisible(visible);
@@ -76,9 +79,15 @@ export class MapController {
       }
       this.render();
     });
-    this.itemController.setOnObstacleVisibleCB((opening: Opening, visible: boolean): void => {
+    this.itemController.setOnOpeningVisibleCB((opening: Opening, visible: boolean): void => {
       opening.setVisible(visible);
       this.render();  
+    });
+    this.itemController.setOnRelationDeleteCB((relation: Relation) => {
+      const index = this.relations.indexOf(relation);
+      if (index >= 0) {
+        this.relations.splice(index, 1);
+      }
     });
 
     this.canvas.width = this.canvas.clientWidth;
@@ -106,7 +115,7 @@ export class MapController {
               this.drawingItem.setClosed();
               this.drawingItem.clearDrawingPoint();
               this.itemController.addUnitItem(this.drawingItem as Unit);
-              this.itemController.updateParentModelSelect(this.units);
+              this.itemController.updateUnitSelect(this.units);
               this.drawingItem = null;
             } else {
               this.drawingItem.confirmDrawingPoint(hoveredPoint);
@@ -150,6 +159,7 @@ export class MapController {
           if (this.drawingItem.getPointCount() === 1) {
             this.drawingItem.confirmDrawingPoint();
             this.itemController.addOpeningItem(this.drawingItem as Opening);
+            this.itemController.updateOpeningSelect(this.openings);
             this.drawingItem = null;
           } else {
             this.drawingItem.confirmDrawingPoint();
@@ -204,7 +214,7 @@ export class MapController {
       this.render();
     });
     this.exportBtn.addEventListener('click', () => {
-      const map: any = { units: [], openings: [], obstacles: [] };
+      const map: any = { units: [], openings: [], obstacles: [], relations: [] };
       for (const unit of this.units) {
         const unitInfo = this.itemController.getUnitInfo(unit);
         const data = {
@@ -247,12 +257,27 @@ export class MapController {
         };
         map.openings.push(data);
       }
+      for (const relation of this.relations) {
+        const relationInfo = this.itemController.getRelationInfo(relation);
+        const data = {
+          ...relationInfo,
+          id: relation.getID(),
+        };
+        map.relations.push(data);
+      }
       const metaPath = path.resolve(this.projectController.getActiveProjectPath(), './project.json');
       const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
       projectMetaData.map = map;
       fs.writeFileSync(metaPath, JSON.stringify(projectMetaData, null, 2));
       console.log(map);
       this.toastController.showToast('success', '地图数据导出', '成功导出地图数据！');
+    });
+    this.createRelationBtn.addEventListener('click', () => {
+      const relation = new Relation();
+      this.relations.push(relation);
+      this.itemController.addRelationItem(relation);
+      this.itemController.updateUnitSelect(this.units);
+      this.itemController.updateOpeningSelect(this.openings);
     });
   }
 
@@ -285,6 +310,7 @@ export class MapController {
       this.openings.push(opening);
       (!dismissItem) && this.itemController.addOpeningItem(opening);
     }
+    (!dismissItem) && this.itemController.updateUnitSelect(this.units);
     this.render();
   }
 

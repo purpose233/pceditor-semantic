@@ -1,12 +1,11 @@
 import { Vector2 } from "three";
 import { PCScene } from "../ortScene";
 import { Point } from "./point";
-
-let polygonID = 0;
+import uuid from 'uuid/v4'
 
 export class Polygon {
 
-  protected id: number = polygonID++;
+  protected id: string = uuid();
   protected altName: string = '';
   protected points: Point[] = [];
   protected drawingPoint: Point | null = null;
@@ -16,7 +15,7 @@ export class Polygon {
   public getName(): string { return this.altName; }
   public setName(name: string): void { this.altName = name; }
 
-  public getID(): number { return this.id; }
+  public getID(): string { return this.id; }
   public getPoints(): Point[] { return this.points; }
 
   public draw(context: CanvasRenderingContext2D): void {}
