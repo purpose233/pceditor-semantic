@@ -14,8 +14,8 @@ import { OperationController } from './ui/operationController';
 import { ToastController } from './ui/toastController';
 import { RenderController } from './ui/renderController';
 import { generateConfig, parseConfig, writeConfig } from './app/config';
-import { ProjectController } from './ui/projectController';
-import { ExportIndexName, getProjectPath } from './common/constants';
+import { ProjectController } from './extra/projectController';
+import { ExportIndexName } from './common/constants';
 
 declare global {
   interface Window {
@@ -41,8 +41,12 @@ declare global {
   // console.log(tree);
   // tree = null;
 
+  const projectController = new ProjectController();
+  projectController.init();
+  
   // render
-  const projectPath = getProjectPath();
+  // const projectPath = getProjectPath();
+  const projectPath = projectController.getActiveProjectPath();
   const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
   console.log(renderTree);
   const renderer = new PCRenderer(renderTree);

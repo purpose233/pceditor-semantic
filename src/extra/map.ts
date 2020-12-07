@@ -5,7 +5,7 @@ import { deserializeIndex } from '../common/serialize';
 import { RenderTree } from '../render/renderTree';
 import { ToastController } from '../ui/toastController';
 import { RenderController } from '../ui/renderController';
-import { ExportIndexName, getProjectPath, setOrtPointSize } from '../common/constants';
+import { ExportIndexName, setOrtPointSize } from '../common/constants';
 import { SelectorNameType, RenderInfoType, ManifestType, ConfigProjectType } from '../common/types';
 import { MapController } from './map/mapController';
 import { ProjectController } from './projectController';
@@ -26,7 +26,7 @@ declare global {
   projectController.init();
 
   // render
-  const projectPath = getProjectPath();
+  const projectPath = projectController.getActiveProjectPath();
   // const projectPath = projectController.getActiveProjectPath();
   const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
   console.log(renderTree);

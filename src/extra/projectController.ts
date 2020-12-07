@@ -34,6 +34,9 @@ export class ProjectInfo {
   public getPLYPath(): string { return this.plyPath; }
   public getPCDPath(): string { return this.pcdPath; }
   public getSpecPath(): string { return this.specPath; }
+  public setName(name: string): void { this.name = name; } 
+  public setStatus(status: string): void { this.status = status; } 
+  public setActive(active: boolean): void { this.isActive = active; } 
 }
 
 // interface SceneMap {
@@ -67,6 +70,11 @@ export class ProjectController {
   private projects: ProjectInfo[] = [];
   
   public init(): void {
+    this.readProjects();
+  }
+
+  public readProjects(): void {
+    this.projects = [];
     const config: any = JSON.parse(
       fs.readFileSync(this.configPath, { encoding: 'utf-8' })
     );
@@ -77,8 +85,23 @@ export class ProjectController {
         info.path,
         info.status,
         info.isActive,
-      ))
+      ));
     }
+  }
+
+  public writeProjects(): void {
+    const config = {
+      projects: this.projects.map(project => {
+        return {
+          id: project.getID(),
+          name: project.getName(),
+          path: project.getPath(),
+          status: project.getStatus(),
+          isActive: project.getIsActive(),
+        };
+      })
+    };
+    fs.writeFileSync(this.configPath, JSON.stringify(config, null, 2), { encoding: 'utf-8' });
   }
 
   public getProjects(): ProjectInfo[] { return this.projects; }
@@ -87,6 +110,12 @@ export class ProjectController {
     return this.projects.find((project: ProjectInfo) => {
       return project.getIsActive();
     });
+  }
+
+  public setActiveProject(project: ProjectInfo): void {
+    this.projects.forEach(project => { project.setActive(false); });
+    project.setActive(true);
+    
   }
 
   public getActiveProjectPath(): string {

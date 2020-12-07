@@ -25,7 +25,7 @@ declare global {
   projectController.init();
 
   // render
-  const projectPath = getProjectPath();
+  const projectPath = projectController.getActiveProjectPath();
   // const projectPath = projectController.getActiveProjectPath();
   const renderTree = await deserializeIndex(projectPath, path.join(projectPath, ExportIndexName), false) as RenderTree;
   console.log(renderTree);

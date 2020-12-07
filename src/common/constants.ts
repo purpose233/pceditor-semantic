@@ -13,7 +13,7 @@ export const GridSize = 128;
 export const NodeStackMax = 128;
 
 // -- Point cloud rendering --
-export const MaxRenderNodes = 20;
+export const MaxRenderNodes = 100;
 
 export const OutlineColor = new Color(0x000000);
 export const OutlineRatio = 1.25;

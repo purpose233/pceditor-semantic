@@ -26,7 +26,7 @@ export class GridController {
 
   // 网格从左下角，即minX，minY开始
   private grid: GridCell[][] = [];
-  private cellSize: number = 0.5  ;
+  private cellSize: number = 0.5;
   private cellWidth: number = 0;
   private cellHeight: number = 0;
   private xCellCount: number = 0;

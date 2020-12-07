@@ -37,5 +37,5 @@ export class Opening extends Polygon {
         context.lineWidth = 1;
       }
     }
-  }  
+  }
 }

@@ -34,7 +34,7 @@ export class ValidateController {
     if (projectMetaData.map) {
       this.isMappedInput.value = '已标注';
     }
-    if (projectMetaData.test_cases) {
+    if (projectMetaData.test_cases && projectMetaData.test_cases.length > 0) {
       this.isCasedInput.value = '已生成';
     }
     if (projectMetaData.model) {

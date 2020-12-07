@@ -291,6 +291,7 @@ export class MapController {
     const projectMetaData = JSON.parse(fs.readFileSync(metaPath, 'utf8'));
     const map = projectMetaData.map;
     console.log(projectMetaData);
+    if (!map) { return; }
     for (const data of map.units) {
       const unit = new Unit(data.id);
       unit.setName(data.alt_name);
