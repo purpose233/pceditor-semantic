@@ -2,6 +2,8 @@ import path from 'path';
 import { RenderNode } from '../render/renderNode';
 import { ProjectController, ProjectInfo } from './projectController';
 import uuid4 from 'uuid/v4';
+import { PCDConverter } from '../converter/pcdConverter';
+import { ConverterTree } from '../converter/converterTree';
 
 class ItemController {
 
@@ -65,6 +67,9 @@ class ItemController {
         this.projectController.writeProjects();
         window.location.href="./pceditor.html";
       });
+      // const deleteBtn = (item as HTMLElement).getElementsByClassName('delete-btn')[0] as HTMLElement;
+      // deleteBtn.addEventListener('click', () => {
+      // });
     }
   }
 
@@ -91,6 +96,17 @@ class DataTransfer {
   // const projects = projectController.getActiveProject();
   const itemController = new ItemController(projectController);
   itemController.init();
+
+  // converte pcd file
+  // const filePath = './data/509.pcd';
+  // const converter = new PCDConverter();
+  // const importPath = path.resolve(filePath);
+  // const exportPath = path.resolve(__dirname, '../projects/509');
+  // console.log(importPath, exportPath);
+  // let tree: ConverterTree | null = await converter.read(importPath, exportPath);
+  // console.log(tree);
+  // tree = null;
+
 })();
 
 const projectDemo = {

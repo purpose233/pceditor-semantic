@@ -100,131 +100,51 @@ body, html {
 }
 
 #container { 
-  height: 100%;
+  height: calc(100% - 56px);
   width: 100%;
   display: flex;
   min-width: 800px;
   min-height: 600px;
 }
-#tool-menu {
-  min-width: 250px;
-  width: 250px; 
-  height: 100%;
+
+#main-container {
   background: #32363c;
-  padding: 20px;
+  padding: 40px;
+  width: 100%;
+  overflow-y: auto;
 }
-#tool-menu .menu-panel {
-  margin-bottom: 20px;
+#main-container .menu-panel {
+  margin-bottom: 40px;
 }
-#tool-menu .title {
+#main-container .title {
   color: white;
   font-weight: bold;
 }
-#tool-menu .divider {
+#main-container .divider {
   height: 1px;
   background: white;
   width: 100%;
   margin: 10px 0;
 }
-#tool-menu .render-info-line .render-info-value {
-  float: right;
-}
-#canvas-container { 
-  overflow: hidden;
-  background: #232323;
-  width: calc(100% - 750px);
-}
-#canvas-container, #canvas { 
-  height: 100%;
-  width: 100%;
-}
-#property-menu {
-  min-width: 300px;
-  width: 300px; 
-  height: 100%;
-  background: #32363c;
-  padding: 20px;
-}
-#property-menu .menu-panel {
-  margin-bottom: 20px;
-}
-#property-menu .title {
-  color: white;
-  font-weight: bold;
-}
-#property-menu .divider {
-  height: 1px;
-  background: white;
-  width: 100%;
-  margin: 10px 0;
-}
-#property-menu .render-info-line {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-#property-menu .render-info-line p {
-  display: inline-block;
-  color: white;
-}
-/* #property-menu .render-info-line .render-info-key {
-} */
-.property-item {
+#main-container .card-item {
   background-color: #59646d;
   border-color: #59646d;
   margin-bottom: 10px;
 }
-.property-item .property-item-line {
-  margin-bottom: 10px;
-}
-.property-item .property-inline-text {
-  display: inline-block;
-  line-height: 34px;
+#main-container .col-form-label {
   color: white;
-  margin-bottom: 0;
+  font-size: 1.2rem;
 }
-.property-item .property-inline-btn {
-  float: right;
+#main-container .form-control {
+  color: #636363;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
-
-#project-panel {
-  padding: 32px;
-  max-height: 80%;
-  min-height: 60%;
+#main-container .form-control-plaintext {
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
 }
-#project-panel .project-container {
-  overflow: auto;
-  position: absolute;
-  height: calc(100% - 64px - 54px);
-  width: calc(100% - 64px);
-  background: #ccc;
-  border-radius: 10px;
-  padding: 16px;
-}
-#project-panel .project-container .project-item {
-  background: white;
-  border-radius: 10px;
-  width: 180px;
-  height: 250px;
-  padding: 10px;
-  text-align: center;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  display: inline-block;
-}
-#project-panel .project-container .project-item img {
-  width: 120px;
-  height: 120px;
-  margin-bottom: 10px;
-}
-#project-panel .project-container .project-item .project-info {
-  width: 160px;
-  min-width: 160px;
-  max-width: 160px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-bottom: 5px;
-}
-#project-panel .project-panel-header {
-  margin-bottom: 16px;
+#main-container .btn {
+  margin-right: 20px;
 }

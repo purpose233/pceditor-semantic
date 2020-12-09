@@ -52,7 +52,7 @@ export const DefaultBoxSelectorSize = 4;
 // BUT, in fact it's quite hard to fulfill a node by real-world 
 //  point cloud. So, it could be set smaller than a fulfilled node.
 // And it could be convconvenient to reduce the de&serializing operations.
-export const MaxConverterThreshold = 1000000;
+export const MaxConverterThreshold = 10000000;
 
 // -- UI --
 export const DefaultToastDelay = 2000;
