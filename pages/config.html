@@ -57,36 +57,56 @@
       </div>
 
       <div id="main-container">
-        <!-- <div class="menu-panel generate-panel">
-          <h5 class="title">场景生成</h5>
+        <div class="menu-panel render-config-panel">
+          <h5 class="title">点云渲染参数配置</h5>
           <div class="divider"></div>
           <div class="card-item project-item card">
             <div class="card-body">
               <div class="form-group row">
-                <label for="" class="col-sm-2 col-form-label">Mesh重建算法：</label>
+                <label for="" class="col-sm-2 col-form-label">LRU最大节点数量：</label>
                 <div class="col-sm-10">
-                  <select class="custom-select">
-                    <option value="">Poission</option>
-                  </select>
+                  <input type="number" class="form-control property-item-line" value="40">
                 </div>
               </div>
               <div class="form-group row">
-                <label for="" class="col-sm-2 col-form-label">导出Mesh格式：</label>
+                <label for="" class="col-sm-2 col-form-label">最大渲染点数量：</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control property-item-line" value="2000000">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">节点LOD规则：</label>
                 <div class="col-sm-10">
                   <select class="custom-select">
-                    <option value="">PLY</option>
+                    <option value="">默认</option>
                   </select>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary btn" id="">
-                <i class="iconfont">&#xe62b;</i>
-                生成场景
-              </button>
             </div>
           </div>
-        </div> -->
+        </div>
+        
+        <div class="menu-panel render-config-panel">
+          <h5 class="title">其他参数配置</h5>
+          <div class="divider"></div>
+          <div class="card-item project-item card">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">索引树生成点数量阈值：</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control property-item-line" value="2000000">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">地图栅格大小：</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control property-item-line" value="0.3">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-
     </div>
 
     <div id="toast-container"></div>

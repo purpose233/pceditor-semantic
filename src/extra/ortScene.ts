@@ -1,5 +1,5 @@
 import { Scene, OrthographicCamera, PerspectiveCamera,
-  WebGLRenderer, Color, AxesHelper, Vector3, Points } from 'three';
+  WebGLRenderer, Color, AxesHelper, Vector3, Points, Group } from 'three';
 import Stats from 'stats.js';
 import { PCRenderer } from '../render/renderer';
 import { TrackballControls } from '../../lib/TrackballControls';
@@ -16,6 +16,9 @@ export class PCScene {
   private pcRenderer: PCRenderer;
   private isEnabled: boolean = true;
   private controls: TrackballControls;
+  private pointGroup: Group;
+
+  private firstRender: boolean = true;
 
   constructor(container: HTMLElement, canvas: HTMLCanvasElement, renderer: PCRenderer) {
     this.container = container;
@@ -40,6 +43,11 @@ export class PCScene {
     this.camera.lookAt(this.scene.position);
     this.camera.updateProjectionMatrix();
     this.camera.updateMatrix();
+
+    this.pointGroup = new Group();
+    this.pointGroup.name = 'pointGroup';
+    this.scene.add(this.pointGroup);
+
     this.pcRenderer = renderer;
 
     const context = canvas.getContext('webgl2') as WebGLRenderingContext;
@@ -107,8 +115,19 @@ export class PCScene {
   public getCamera(): OrthographicCamera { return this.camera; }
 
   private onWindowResize = async () => {
-    this.camera.updateProjectionMatrix();
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    
+    const bboxMin = this.pcRenderer.getBBox().getMin();
+    const bboxMax = this.pcRenderer.getBBox().getMax();
+    const bboxCenter = this.pcRenderer.getBBox().getCenter();
+    const bboxX = bboxMax.x - bboxMin.x;
+    const bboxY = bboxMax.y - bboxMin.y;
+    this.camera = new OrthographicCamera(bboxX / -2, bboxX / 2, bboxY / -2, bboxY / 2, 1, 10000);
+    this.camera.position.set(0, 0, 0);
+    this.camera.lookAt(this.scene.position);
+    this.camera.updateProjectionMatrix();
+    this.camera.updateMatrix();
+    
     // this.controls.handleResize();
     await this.render();
   }
@@ -141,12 +160,10 @@ export class PCScene {
     const bboxCenter = this.pcRenderer.getBBox().getCenter();
     const bboxX = bboxMax.x - bboxMin.x;
     const bboxY = bboxMax.y - bboxMin.y;
-    this.scene.children.forEach(mesh => {
-      if (mesh instanceof Points) {
-        mesh.translateX(-bboxCenter.x);
-        mesh.translateY(-bboxCenter.y);
-        // mesh.translateZ(-bboxCenter.z);
-      }
-    })
+    if (this.firstRender) {
+      this.pointGroup.translateX(-bboxCenter.x);
+      this.pointGroup.translateY(-bboxCenter.y);
+      this.firstRender = false;
+    }
   }
 }

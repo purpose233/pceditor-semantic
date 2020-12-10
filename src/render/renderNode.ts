@@ -1,7 +1,7 @@
 import { MNONode } from '../tree/mnoNode';
 import { Points, Scene, BufferGeometry, Float32BufferAttribute, 
   PointsMaterial, Line, 
-  Color, Box3, Box3Helper, Vector3 } from 'three';
+  Color, Box3, Box3Helper, Vector3, Mesh, Group, Object3D } from 'three';
 import { deserializeNode, serializeNode } from '../common/serialize';
 import { SelectedPointColor, BBoxColor, OutlineRatio, OutlineColor, ExportTempPostfix, getPointSize } from '../common/constants';
 import { RenderPoint } from './renderPoint';
@@ -66,7 +66,7 @@ export class RenderNode extends MNONode {
       console.log('Rendered node has not loaded!')
       return; 
     }
-    scene.add(this.mesh as Points);
+    this.appendObject(this.mesh, scene);
     if (this.isBBoxRendering) { this.renderBBox(scene); }
     this.isRendering = true;
   }
@@ -77,8 +77,10 @@ export class RenderNode extends MNONode {
       console.log('Unrendered node has not loaded!')
       return; 
     }
-    scene.remove(this.mesh as Points);
-    if (this.isBBoxRendering && this.bboxMesh) { scene.remove(this.bboxMesh); }
+    this.removeObject(this.mesh as Points, scene);
+    if (this.isBBoxRendering && this.bboxMesh) {
+      this.removeObject(this.bboxMesh, scene);
+    }
     this.isRendering = false;
   }
 
@@ -93,9 +95,13 @@ export class RenderNode extends MNONode {
 
   public updateRender(scene: Scene): void {
     if (!this.isLoaded) { return; }
-    if (this.isRendering) { scene.remove(this.mesh as Points); }
+    if (this.isRendering) {
+      this.removeObject(this.mesh as Points, scene);
+    }
     this.mesh = this.createMesh();
-    if (this.isRendering) { scene.add(this.mesh as Points); }
+    if (this.isRendering) { 
+      this.appendObject(this.mesh, scene);
+    }
   }
 
   public checkIsRendering(): boolean { return this.isRendering; }
@@ -108,13 +114,13 @@ export class RenderNode extends MNONode {
     if (!this.bboxMesh) {
       this.bboxMesh = this.createBBoxMesh();
     }
-    scene.add(this.bboxMesh);
+    this.appendObject(this.bboxMesh, scene);
     this.isBBoxRendering = true;
   }
 
   public unrenderBBox(scene: Scene): void {
     if (this.bboxMesh) {
-      scene.remove(this.bboxMesh);
+      this.removeObject(this.bboxMesh, scene);
     }
     this.isBBoxRendering = false;
   }
@@ -189,5 +195,15 @@ export class RenderNode extends MNONode {
       new Vector3((max.x + min.x) / 2, (max.y + min.y) / 2, (max.z + min.z) / 2), 
       new Vector3(max.x - min.x, max.y - min.y, max.z - min.z));
     return new Box3Helper(box, new Color(BBoxColor));
+  }
+
+  private appendObject(object: Object3D, scene: Scene) {
+    const pointGroup = scene.getObjectByName('pointGroup') as Group;
+    pointGroup.add(object);
+  }
+
+  private removeObject(object: Object3D, scene: Scene) {
+    const pointGroup = scene.getObjectByName('pointGroup') as Group;
+    pointGroup.remove(object);
   }
 }

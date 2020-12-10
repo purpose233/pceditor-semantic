@@ -17,8 +17,8 @@ export const MaxRenderNodes = 100;
 
 export const OutlineColor = new Color(0x000000);
 export const OutlineRatio = 1.25;
-export const DefaultPointSize = 0.25;
-export const OrthgraphicPointSize = 7;
+export const DefaultPointSize = 0.5;
+export const OrthgraphicPointSize = 2;
 export const DefaultPointColor = new Color(0xffffff);
 export const SelectedPointColor = new Color(0xf56f70);
 export const SelectorColor = new Color(0x00ff00);

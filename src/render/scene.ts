@@ -1,5 +1,5 @@
 import { Scene, PerspectiveCamera, 
-  WebGLRenderer, Color, AxesHelper } from 'three';
+  WebGLRenderer, Color, AxesHelper, Group } from 'three';
 // import { TrackballControls } from '../../lib/TrackballControls';
 // import { OrbitControls } from '../../lib/OrbitControls';
 import { TrackballControls } from '../../lib/TrackballControls';
@@ -20,6 +20,7 @@ export class PCScene {
   private pcRenderer: PCRenderer;
   private isEnabled: boolean = true;
 
+  private pointGroup: Group;
   private axesMesh: AxesHelper;
 
   constructor(container: HTMLElement, canvas: HTMLCanvasElement, renderer: PCRenderer) {
@@ -33,6 +34,11 @@ export class PCScene {
     this.camera.position.set(0, 0, 16);
     this.camera.lookAt(this.scene.position);
     this.camera.updateMatrix();
+    
+    this.pointGroup = new Group();
+    this.pointGroup.name = 'pointGroup';
+    this.scene.add(this.pointGroup);
+
     this.pcRenderer = renderer;
 
     const context = canvas.getContext('webgl2') as WebGLRenderingContext;

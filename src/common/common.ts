@@ -3,6 +3,12 @@ import { SerializedBBoxType, ClosestPointOfLineResult, AxisType } from './types'
 import { Vector3, Camera, Matrix4 } from 'three';
 import { BoundingBox } from './bbox';
 
+export function sleep(delay: number): Promise<void> {
+  return new Promise(reslove => {
+    setTimeout(reslove, delay)
+  });
+}
+
 export function readFileP<T>(filePath: string, handler: (buffer: Buffer)=>T): Promise<T> {
   return new Promise((resolve) => {
     fs.readFile(filePath, (err: any, data: Buffer) => {

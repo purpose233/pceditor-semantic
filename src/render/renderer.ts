@@ -245,7 +245,8 @@ export class PCRenderer {
     // always show root node
     if (node.getIdx() === '0') { return true; }
     const bbox = node.getBBox();
-    if (!bbox.checkInFrustum(camera, this.currentWtoCMatrix)) { return false; }
+    // 视锥剔除有点问题，暂时禁用
+    // if (!bbox.checkInFrustum(camera, this.currentWtoCMatrix)) { return false; }
     const distance = bbox.calcDistanceToPosition(camera.position);
     if (distance >= 3 * bbox.getSizeMaxScalar()) { return false; }
     return true;

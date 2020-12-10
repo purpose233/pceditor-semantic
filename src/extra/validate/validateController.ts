@@ -1,13 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { sleep } from '../../common/common';
 import { ProjectController } from "../projectController";
 import { ValidateResult, Validator } from './validator';
-
-function sleep(delay: number) {
-  return new Promise(reslove => {
-    setTimeout(reslove, delay)
-  })
-}
 
 export class ValidateController {
 

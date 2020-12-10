@@ -26,7 +26,7 @@ export class GridController {
 
   // 网格从左下角，即minX，minY开始
   private grid: GridCell[][] = [];
-  private cellSize: number = 0.5;
+  private cellSize: number = 3;
   private cellWidth: number = 0;
   private cellHeight: number = 0;
   private xCellCount: number = 0;
@@ -133,6 +133,18 @@ export class GridController {
   
   public unrender(): void {
     this.canvas.width = this.canvas.clientWidth;
+  }
+
+  public getGridCorner(xIndex: number, yIndex: number) {
+    const { height } = this.pcScene.getCanvasSize();
+    const canvasX = (xIndex + 0.5) * this.cellWidth;
+    const canvasY = height - (yIndex + 0.5) * this.cellHeight;
+    return [
+      new Vector2(canvasX - this.cellWidth / 2, canvasY - this.cellHeight / 2),
+      new Vector2(canvasX + this.cellWidth / 2, canvasY + this.cellHeight / 2),
+      new Vector2(canvasX + this.cellWidth / 2, canvasY - this.cellHeight / 2),
+      new Vector2(canvasX - this.cellWidth / 2, canvasY + this.cellHeight / 2),
+    ];
   }
 
   private calcCellCost(xIndex: number, yIndex: number, mapController: MapController): number {

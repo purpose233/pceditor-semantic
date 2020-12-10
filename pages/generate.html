@@ -63,25 +63,68 @@
           <div class="card-item project-item card">
             <div class="card-body">
               <div class="form-group row">
-                <label for="" class="col-sm-2 col-form-label">Mesh重建算法：</label>
+                <label for="" class="col-sm-2 col-form-label">场景规范版本：</label>
                 <div class="col-sm-10">
                   <select class="custom-select">
-                    <option value="">Poission</option>
+                    <option value="">1.0.0</option>
                   </select>
                 </div>
               </div>
               <div class="form-group row">
-                <label for="" class="col-sm-2 col-form-label">导出Mesh格式：</label>
+                <label for="" class="col-sm-2 col-form-label">场景数据格式：</label>
+                <div class="col-sm-10">
+                  <select class="custom-select">
+                    <option value="">JSON</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">模型重建算法：</label>
+                <div class="col-sm-10">
+                  <select class="custom-select">
+                    <option value="">Screened Poission</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">导出模型格式：</label>
                 <div class="col-sm-10">
                   <select class="custom-select">
                     <option value="">PLY</option>
                   </select>
                 </div>
               </div>
-              <button type="button" class="btn btn-primary btn" id="">
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">目标文件夹：</label>
+                <div class="col-sm-10">
+                  <input type="file" id="exportDirInput" webkitdirectory directory />
+                </div>
+              </div>
+              <button type="button" class="btn btn-primary btn" id="generateBtn">
                 <i class="iconfont">&#xe62b;</i>
                 生成场景
               </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="menu-panel config-panel">
+          <h5 class="title">Screened Possion 参数配置</h5>
+          <div class="divider"></div>
+          <div class="card-item project-item card">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">重建深度：</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control property-item-line" value="8">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="" class="col-sm-2 col-form-label">Octree深度：</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control property-item-line" value="5">
+                </div>
+              </div>
             </div>
           </div>
         </div>

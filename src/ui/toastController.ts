@@ -1,4 +1,4 @@
-import { DefaultToastDelay, ToastSuccessColor, ToastErrorColor, ToastWarningColor } from '../common/constants';
+import { DefaultToastDelay, ToastSuccessColor, ToastErrorColor, ToastWarningColor, ToastInfoColor } from '../common/constants';
 import { ToastType } from '../common/types';
 
 const $: any = (window as any).$;
@@ -25,6 +25,7 @@ export class ToastController {
       </div>
     `);
     this.jToastContainer.append(toast);
+    // if (delay) toast.toast({delay: delay});
     toast.toast('show');
     setTimeout(() => {
       toast.remove();
@@ -36,7 +37,7 @@ export class ToastController {
       case 'success': return ToastSuccessColor;
       case 'warning': return ToastWarningColor;
       case 'error': return ToastErrorColor;
-      case 'info': return ToastSuccessColor;
+      case 'info': return ToastInfoColor;
     }
   }
 }
