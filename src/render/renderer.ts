@@ -248,7 +248,7 @@ export class PCRenderer {
     // 视锥剔除有点问题，暂时禁用
     // if (!bbox.checkInFrustum(camera, this.currentWtoCMatrix)) { return false; }
     const distance = bbox.calcDistanceToPosition(camera.position);
-    if (distance >= 3 * bbox.getSizeMaxScalar()) { return false; }
+    if (distance >= 4 * bbox.getSizeMaxScalar()) { return false; }
     return true;
   }
 

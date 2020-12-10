@@ -124,14 +124,14 @@ export class ProjectController {
   }
   public getActivePLYPath(): string {
     const project = this.getActiveProject();
-    return project ? path.resolve(this.rootPath, project.getPLYPath()) : '';
+    return project ? path.resolve(this.rootPath, project.getPath(), project.getPLYPath()) : '';
   }
   public getActivePCDPath(): string {
     const project = this.getActiveProject();
-    return project ? path.resolve(this.rootPath, project.getPCDPath()) : '';
+    return project ? path.resolve(this.rootPath, project.getPath(), project.getPCDPath()) : '';
   }
   public getActiveSpecPath(): string {
     const project = this.getActiveProject();
-    return project ? path.resolve(this.rootPath, project.getSpecPath()) : '';
+    return project ? path.resolve(this.rootPath, project.getPath(), project.getSpecPath()) : '';
   }
 }
