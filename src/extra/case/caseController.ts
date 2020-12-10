@@ -109,6 +109,7 @@ export class CaseController {
               this.drawingItem.setClosed();
               this.drawingItem.clearDrawingPoint();
               this.itemController.addCoverCase(this.drawingItem as CoverCase);
+              (this.drawingItem as CoverCase).generatePath(this.gridController);
               this.drawingItem = null;
             } else {
               this.drawingItem.confirmDrawingPoint(hoveredPoint);

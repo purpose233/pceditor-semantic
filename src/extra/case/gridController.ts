@@ -20,6 +20,7 @@ const GridLineColor = 'rgba(255, 251, 38, 0.5)';
 const GridFillColor = 'rgba(255, 251, 38, 0.5)';
 const ConnectedGridFillColor = 'rgba(255, 104, 104, 0.5)';
 
+// 注意，网格与canvas的y轴相反，x轴相同，同时网格的原点位于canvas (0, height) 处
 export class GridController {
 
   private pcScene: PCScene;
@@ -27,6 +28,7 @@ export class GridController {
   // 网格从左下角，即minX，minY开始
   private grid: GridCell[][] = [];
   private cellSize: number = 3;
+  // private cellSize: number = 0.5;
   private cellWidth: number = 0;
   private cellHeight: number = 0;
   private xCellCount: number = 0;
@@ -45,6 +47,10 @@ export class GridController {
   public init(): void {
     this.canvas.width = this.canvas.clientWidth;
     this.canvas.height = this.canvas.clientHeight;
+  }
+
+  public getCellCount() {
+    return { x: this.xCellCount, y: this.yCellCount };
   }
 
   public generateGrid(mapController: MapController): void {
@@ -135,14 +141,16 @@ export class GridController {
     this.canvas.width = this.canvas.clientWidth;
   }
 
+  // 获得基于 grid 坐标系的 corner
   public getGridCorner(xIndex: number, yIndex: number) {
     const { height } = this.pcScene.getCanvasSize();
     const canvasX = (xIndex + 0.5) * this.cellWidth;
     const canvasY = height - (yIndex + 0.5) * this.cellHeight;
+    // leftTop | rightTop | rightBottom | leftBottom
     return [
       new Vector2(canvasX - this.cellWidth / 2, canvasY - this.cellHeight / 2),
-      new Vector2(canvasX + this.cellWidth / 2, canvasY + this.cellHeight / 2),
       new Vector2(canvasX + this.cellWidth / 2, canvasY - this.cellHeight / 2),
+      new Vector2(canvasX + this.cellWidth / 2, canvasY + this.cellHeight / 2),
       new Vector2(canvasX - this.cellWidth / 2, canvasY + this.cellHeight / 2),
     ];
   }
