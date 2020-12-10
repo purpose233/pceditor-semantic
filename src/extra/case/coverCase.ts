@@ -74,7 +74,7 @@ export class CoverCase extends Polygon {
     let latestNeighbor = null;
     for (const neighbor of neighbors) {
       if (!neighbor.visited) {
-        this.addRightPoint(cellW, cellX, neighbor, coverGrid, path, centerPath, false);
+        this.addRightPoint(latestNeighbor ? latestNeighbor : cellW, cellX, neighbor, coverGrid, path, centerPath, false);
         this.stc(cellX, neighbor, coverGrid, path, centerPath);
         latestNeighbor = neighbor;
       }
@@ -295,21 +295,21 @@ export class CoverCase extends Polygon {
         context.stroke();
       }
     }
-    for (let i = 0; i < this.centerPathPoints.length; i++) {
-      const x = this.centerPathPoints[i].x;
-      const y = this.centerPathPoints[i].y;
-      context.beginPath();
-      context.moveTo(x, y);
-      context.arc(x, y, CasePointSize, 0, 2 * Math.PI);
-      context.fill();
-      if (i > 0) {
-        context.beginPath();
-        const lastX = this.centerPathPoints[i - 1].x;
-        const lastY = this.centerPathPoints[i - 1].y;
-        context.moveTo(lastX, lastY);
-        context.lineTo(x, y);
-        context.stroke();
-      }
-    }
+    // for (let i = 0; i < this.centerPathPoints.length; i++) {
+    //   const x = this.centerPathPoints[i].x;
+    //   const y = this.centerPathPoints[i].y;
+    //   context.beginPath();
+    //   context.moveTo(x, y);
+    //   context.arc(x, y, CasePointSize, 0, 2 * Math.PI);
+    //   context.fill();
+    //   if (i > 0) {
+    //     context.beginPath();
+    //     const lastX = this.centerPathPoints[i - 1].x;
+    //     const lastY = this.centerPathPoints[i - 1].y;
+    //     context.moveTo(lastX, lastY);
+    //     context.lineTo(x, y);
+    //     context.stroke();
+    //   }
+    // }
   }
 }
