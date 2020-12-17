@@ -28,7 +28,7 @@ export class ToastController {
     // if (delay) toast.toast({delay: delay});
     toast.toast('show');
     setTimeout(() => {
-      toast.remove();
+      // toast.remove();
     }, DefaultToastDelay + 500);
   }
 

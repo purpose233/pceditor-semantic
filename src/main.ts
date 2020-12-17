@@ -12,8 +12,9 @@ function createWindow () {
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(__dirname, 'preload.js')
-    }
+      preload: path.join(__dirname, 'preload.js'),
+      blinkFeatures: 'PreciseMemoryInfo'
+    } as any
   });
 
   // and load the index.html of the app.

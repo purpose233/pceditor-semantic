@@ -8,6 +8,9 @@ const CaseLineColor = '#57b0ff';
 const CaseFillColor = 'rgba(86, 176, 255, 0.5)';
 const CasePointSize = 5;
 
+const CaseBeginPointColor = '#1ca02d';
+const CaseEndPointColor = '#e46a13'
+
 interface CoverCell extends GridCell {
   covered: boolean;
   // 注意这里的 left/right/top/bottom 是基于 grid 坐标系的
@@ -249,6 +252,7 @@ export class CoverCase extends Polygon {
     if (this.isClosed) drawingPoints.push(this.points[0]);
     context.fillStyle = CasePointColor;
     context.strokeStyle = CaseLineColor;
+    context.lineWidth = 3;
     for (let i = 0; i < drawingPoints.length; i++) {
       const x = drawingPoints[i].getPosition().x;
       const y = drawingPoints[i].getPosition().y;
@@ -265,19 +269,19 @@ export class CoverCase extends Polygon {
         context.stroke();
       }
     }
-    if (this.isClosed) {
-      context.fillStyle = CaseFillColor;
-      context.beginPath();
-      const x = this.points[0].getPosition().x;
-      const y = this.points[0].getPosition().y;
-      context.moveTo(x, y);
-      for (const point of this.points) {
-        const x = point.getPosition().x;
-        const y = point.getPosition().y;
-        context.lineTo(x, y);
-      }
-      context.fill();
-    }
+    // if (this.isClosed) {
+    //   context.fillStyle = CaseFillColor;
+    //   context.beginPath();
+    //   const x = this.points[0].getPosition().x;
+    //   const y = this.points[0].getPosition().y;
+    //   context.moveTo(x, y);
+    //   for (const point of this.points) {
+    //     const x = point.getPosition().x;
+    //     const y = point.getPosition().y;
+    //     context.lineTo(x, y);
+    //   }
+    //   context.fill();
+    // }
 
     for (let i = 0; i < this.pathPoints.length; i++) {
       const x = this.pathPoints[i].x;
@@ -286,6 +290,22 @@ export class CoverCase extends Polygon {
       // context.moveTo(x, y);
       // context.arc(x, y, CasePointSize, 0, 2 * Math.PI);
       // context.fill();
+      if (i === 0) {
+        context.fillStyle = CaseBeginPointColor;
+        context.beginPath();
+        context.moveTo(x, y);
+        context.arc(x, y, CasePointSize, 0, 2 * Math.PI);
+        context.fill();
+      }
+      if (i === this.pathPoints.length - 1) {
+        context.fillStyle = CaseEndPointColor;
+        context.beginPath();
+        context.moveTo(x, y);
+        context.arc(x, y, CasePointSize, 0, 2 * Math.PI);
+        context.fill();
+      }
+      context.fillStyle = CasePointColor;
+      context.strokeStyle = CaseLineColor;
       if (i > 0) {
         context.beginPath();
         const lastX = this.pathPoints[i - 1].x;

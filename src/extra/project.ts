@@ -98,10 +98,10 @@ class DataTransfer {
   itemController.init();
 
   // converte pcd file
-  // const filePath = './data/path.pcd';
+  // const filePath = './data/509_tri.pcd';
   // const converter = new PCDConverter();
   // const importPath = path.resolve(filePath);
-  // const exportPath = path.resolve(__dirname, '../projects/path');
+  // const exportPath = path.resolve(__dirname, '../projects/509_tri');
   // console.log(importPath, exportPath);
   // let tree: ConverterTree | null = await converter.read(importPath, exportPath);
   // console.log(tree);

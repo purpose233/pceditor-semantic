@@ -71,7 +71,7 @@ export class BoxSelector extends ShapeSelector {
   private static createMesh(center: Vector3, size: Vector3): Object3D {
     const bbox = new BoundingBox(size.clone().negate().divideScalar(2), size.clone().divideScalar(2));
     const vertices = bbox.getVertices();
-    const material = new LineBasicMaterial({color: VertexColors});
+    const material = new LineBasicMaterial({color: SelectorColor});
     let geometry = new BufferGeometry();
     geometry.addAttribute('position', new Float32BufferAttribute([
       vertices[0].x, vertices[0].y, vertices[0].z,

@@ -56,7 +56,8 @@ export class ValidateController {
       const rule = this.validator.getCurrentRule();
       this.validateMsg.innerHTML = rule.validateInfo + '...';
       currentResult = this.validator.runRule(projectMetaData);
-      await sleep(150);
+      // await sleep(150);
+      await sleep(3000);
       if (currentResult.type !== 'success') { break; }
     } while (this.validator.currentRuleIndex !== 0);
     if (currentResult.type !== 'success') {

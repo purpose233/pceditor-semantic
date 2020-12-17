@@ -12,6 +12,9 @@ const PathPointColor = '#00ffd0';
 const PathLineColor = '#00ffd0';
 const PathPointSize = 5;
 
+const CaseBeginPointColor = '#1ca02d';
+const CaseEndPointColor = '#e46a13'
+
 interface AstarGridCache {
   i: number;
   j: number;
@@ -287,9 +290,16 @@ export class BasicCase extends Polygon {
     const drawingPoints = [ ...this.points ];
     if (this.drawingPoint) drawingPoints.push(this.drawingPoint);
     if (this.isClosed) drawingPoints.push(this.points[0]);
-    context.fillStyle = CasePointColor;
-    context.strokeStyle = CaseLineColor;
+    context.lineWidth = 2;
     for (let i = 0; i < drawingPoints.length; i++) {
+      context.fillStyle = CasePointColor;
+      context.strokeStyle = CaseLineColor;
+      if (i === 0) {
+        context.fillStyle = CaseBeginPointColor;
+      }
+      if (i === drawingPoints.length - 1) {
+        context.fillStyle = CaseEndPointColor;
+      }
       const x = drawingPoints[i].getPosition().x;
       const y = drawingPoints[i].getPosition().y;
       context.beginPath();
