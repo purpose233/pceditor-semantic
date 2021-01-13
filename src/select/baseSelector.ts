@@ -64,20 +64,22 @@ export abstract class BaseSelector {
   public rebuildConnection(selectNode: SelectNode, refNode: RenderNode): void {
     // const selectNode = this.selectTree.getNodeByIdx(refNode.getIdx()) as SelectNode | null;
     // if (!selectNode) { return; }
+    console.time('rebuild connection');
     const iter = selectNode.getGridEntryIter();
     let result;
     while (!(result = iter.next()).done) {
       const gNumber: number = result.value[0];
       selectNode.selectGridPoint(refNode.getGridPoint(gNumber) as RenderPoint, gNumber);
     }
-
     this.diffStacks(selectNode, refNode);
     selectNode.setDirty();
+    console.timeEnd('rebuild connection');
   }
 
   // The function updateSelectTree will update each node of select tree and should be 
   //  called after selector is changed.
   public updateSelectTree(scene: Scene): void {
+    console.time('update select tree');
     this.selectTree.dirtyTree();
     this.selectTree.unreachTree();
     const refNode = this.refTree.getRootNode() as RenderNode;
@@ -91,16 +93,19 @@ export abstract class BaseSelector {
     //  which contains points before updating could be cleared.
     this.selectTree.updateTreeRender(scene);
     this.selectTree.removeUnreachedNodes();
+    console.timeEnd('update select tree');
   }
 
   // The function completeSelectTree won't change the node that already has selecting result, 
   //  but will check the previous unloaded node.
   // It should be called after lru operation is excuted.
   public completeSelectTree(scene: Scene): void {
+    console.time('complete select tree');
     const refNode = this.refTree.getRootNode() as RenderNode;
     const selectNode = this.selectTree.getRootNode() as SelectNode;
     this.completeTreeRecursively(selectNode, refNode);
     this.selectTree.updateTreeRender(scene);
+    console.timeEnd('complete select tree');
   }
 
   private diffGrid(selectNode: SelectNode, refNode: RenderNode): void {
