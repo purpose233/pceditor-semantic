@@ -107,6 +107,13 @@ class DataTransfer {
   // console.log(tree);
   // tree = null;
 
+  // const filePath = './data/pc.pcd';
+  // const converter = new PCDConverter();
+  // const importPath = path.resolve(filePath);
+  // const exportPath = path.resolve('./data/pc_-z-y.pcd');
+  // console.log(importPath, exportPath);
+  // await converter.read(importPath, exportPath);
+
 })();
 
 const projectDemo = {

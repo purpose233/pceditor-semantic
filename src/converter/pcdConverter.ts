@@ -59,12 +59,59 @@ export class PCDConverter extends BaseConverter {
     }
   }
 
+
+
   public async read(filePath: string, exportPath: string): Promise<ConverterTree> {
     this.createProjectDir(exportPath);
     let pointNumber = 0;
     let pointCount = 0;
-    console.log('aaa')
+    // console.log('aaa');
     const bbox = await this.readBoundingBox(filePath);
+  
+//     const ws = fs.createWriteStream(exportPath);
+//     ws.setDefaultEncoding('utf-8');
+//     const head =
+// `# .PCD v0.7 - Point Cloud Data file format
+// VERSION 0.7
+// FIELDS x y z intensity
+// SIZE 4 4 4 4
+// TYPE F F F F
+// COUNT 1 1 1 1
+// WIDTH 106875
+// HEIGHT 1
+// VIEWPOINT 0 0 0 1 0 0 0
+// POINTS 106875
+// DATA ascii
+// `;
+//     const waiting = ws.write(head);
+//     let str = '';
+    await this.readLine(filePath, (data: string) => {
+      const words = data.split(' ');
+      if (!isNaN(parseFloat(words[0]))) {
+        // const position = new Vector3(parseFloat(words[0]),
+        //   parseFloat(words[2]), -parseFloat(words[1]));
+        const position = new Vector3(parseFloat(words[0]),
+          parseFloat(words[1]), parseFloat(words[2]));
+        // const i = parseFloat(words[3]);
+        const color = new Color(parseInt(words[3]),
+          parseInt(words[4]), parseInt(words[5]));
+        const point = new ConverterPoint(position, color);
+        tree.addPoint(point);
+      //   str += 
+      //    `${(position.x).toPrecision(8)}`
+      // + ` ${(-position.z).toPrecision(8)}`
+      // + ` ${(-position.y).toPrecision(8)}`
+      // + ` ${i.toPrecision(8)}\n`;
+        pointCount++;
+      } else {
+        switch (words[0]) {
+          case 'POINTS': pointNumber = parseInt(words[1]); break;
+        }
+      }
+    });
+    console.log('Read points: ' + pointCount);
+    // ws.write(str);
+    // return null as any;
     const tree = new ConverterTree(exportPath, bbox);
     await this.readLine(filePath, (data: string) => {
       const words = data.split(' ');
